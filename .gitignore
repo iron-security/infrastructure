@@ -1,1 +1,4 @@
 **/*.json
+**/.terraform*
+**/terraform.tfstate*
+**/generated/

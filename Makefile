@@ -1,5 +1,5 @@
-PROJECT_ID=""
-TERRAFORM_DIR="terraform/"
+PROJECT_ID="ironsecurity"
+TERRAFORM_DIR="."
 TERRAFORM_VARFILE="settings.tfvars"
 TERRAFORM_AUTH="terraform-sa.json"
 
@@ -58,26 +58,22 @@ update-helm:
 
 init:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	TF_VAR_project_id=$(PROJECT_ID) \
 	terraform -chdir=$(TERRAFORM_DIR) init \
 		-upgrade \
 		-reconfigure
 
 validate:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	TF_VAR_project_id=$(PROJECT_ID) \
 	terraform -chdir=$(TERRAFORM_DIR) validate .
 
 plan:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	TF_VAR_project_id=$(PROJECT_ID) \
 	terraform -chdir=$(TERRAFORM_DIR) plan \
 		-lock=false \
 		-input=false
 		
 apply:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	TF_VAR_project_id=$(PROJECT_ID) \
 	terraform -chdir=$(TERRAFORM_DIR) apply \
 		-auto-approve \
 		-lock=false \
@@ -85,13 +81,11 @@ apply:
 
 destroy:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	TF_VAR_project_id=$(PROJECT_ID) \
 	terraform -chdir=$(TERRAFORM_DIR) destroy \
 		-input=false
 
 destroy-helm:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	TF_VAR_project_id=$(PROJECT_ID) \
 	terraform -chdir=$(TERRAFORM_DIR) destroy \
 		-input=false \
 		-target=helm_release.dev_worker \
@@ -100,5 +94,4 @@ destroy-helm:
 
 refresh:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	TF_VAR_project_id=$(PROJECT_ID) \
 	terraform -chdir=$(TERRAFORM_DIR) refresh
