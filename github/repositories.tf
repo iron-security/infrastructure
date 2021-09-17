@@ -1,4 +1,4 @@
-resource "github_repository" "tfer--infrastructure" {
+resource "github_repository" "infrastructure" {
     allow_merge_commit     = "true"
     allow_rebase_merge     = "true"
     allow_squash_merge     = "true"
@@ -15,7 +15,9 @@ resource "github_repository" "tfer--infrastructure" {
     vulnerability_alerts   = "true"
 }
 
-resource "github_repository" "tfer--iron-002E-security" {
+
+
+resource "github_repository" "iron_security" {
     allow_merge_commit     = "true"
     allow_rebase_merge     = "true"
     allow_squash_merge     = "true"
@@ -32,7 +34,7 @@ resource "github_repository" "tfer--iron-002E-security" {
     vulnerability_alerts   = "true"
 }
 
-resource "github_repository" "tfer--platform" {
+resource "github_repository" "platform" {
     allow_merge_commit     = "true"
     allow_rebase_merge     = "true"
     allow_squash_merge     = "true"
@@ -49,3 +51,31 @@ resource "github_repository" "tfer--platform" {
     topics                 = ["api", "backend", "docker", "helm"]
     vulnerability_alerts   = "true"
 }
+
+/*
+// TODO : re-enable once the repos go public or we have Pro
+resource "github_branch_protection_v3" "platform_main" {
+    repository = github_repository.platform.id
+    branch = "main"
+    enforce_admins = true
+    required_status_checks {
+      strict = true
+    }
+}
+resource "github_branch_protection_v3" "iron_security_main" {
+    repository = github_repository.iron_security.id
+    branch = "main"
+    enforce_admins = true
+    required_status_checks {
+      strict = true
+    }
+}
+resource "github_branch_protection_v3" "infrastructure_main" {
+    repository = github_repository.infrastructure.id
+    branch = "main"
+    enforce_admins = true
+    required_status_checks {
+      strict = true
+    }
+}
+*/

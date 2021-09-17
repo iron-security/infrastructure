@@ -3,14 +3,16 @@ resource "cloudflare_record" "ironsecurity_cname" {
     zone_id = var.zone_iron_security
     name = "iron.security"
     type = "CNAME"
-    value = "iron-security.pages.dev"
+    value = "ironsecurity.pages.dev"
+    proxied = true
 }
 
 resource "cloudflare_record" "wwwironsecurity_cname" {
     zone_id = var.zone_iron_security
     name = "www.iron.security"
     type = "CNAME"
-    value = "iron-security.pages.dev"
+    value = "ironsecurity.pages.dev"
+    proxied = true
 }
 
 # verification records
