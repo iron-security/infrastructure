@@ -23,3 +23,7 @@ variable gke_min_node_count {
 variable gke_max_node_count {
     default = 2
 }
+
+variable node_machine_type {
+    default = "e2-small"
+}

@@ -61,6 +61,11 @@ resource "google_container_cluster" "main_cluster" {
     }
 
     addons_config {
+        # accelerate dns caching on nodes locally
+        dns_cache_config {
+            enabled = true
+        }
+
         horizontal_pod_autoscaling {
             disabled = false
         }
