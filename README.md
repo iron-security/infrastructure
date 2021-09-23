@@ -19,4 +19,7 @@ The repository that contains the [Terraform](https://www.terraform.io/) configur
 
 # now initialize, create the S3 bucket we will store our terraform state in and create the terraform service account to be used
 % make init enable-services create-state-bucket create-terraform-account
+
+# and now we can finally bring up our infrastructure!
+% make init validate plan apply
 ```
