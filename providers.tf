@@ -17,6 +17,8 @@ terraform {
             version = "= 4.14.0"
         }
 
+        # TODO: remove google-beta in favour of google when they merge 'google_project_service_identity'
+        # this will need to be removed from every providers.tf file
         google = {
             source  = "hashicorp/google-beta"
             version = ">= 3.84.0"
@@ -51,7 +53,7 @@ provider google {
 }
 
 provider kubernetes {
-    cluster_ca_certificate  = module.gcloud.cluster_ca_certificate
-    host                    = module.gcloud.cluster_endpoint
-    token                   = module.gcloud.cluster_client_token
+    cluster_ca_certificate  = module.google.cluster_ca_certificate
+    host                    = module.google.cluster_endpoint
+    token                   = module.google.cluster_client_token
 }

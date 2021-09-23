@@ -13,3 +13,8 @@ module "google" {
 
     project_id = var.gcp_project_id
 }
+
+
+module "kubernetes" {
+    source = "./kubernetes"
+}
