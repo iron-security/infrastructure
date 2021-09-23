@@ -1,6 +1,6 @@
 # infrastructure
 
-The repository that contains the [Terraform](https://www.terraform.io/) configuration for the infrastructure that is used to run IRON.
+This repository contains the [Terraform](https://www.terraform.io/) configuration that steers the infrastructure that is used to run the IRON platform.
 
 ## Usage
 
