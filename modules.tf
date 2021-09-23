@@ -1,20 +1,20 @@
 module "cloudflare" {
-    source = "./cloudflare"
+  source = "./cloudflare"
 
-    account_admin = var.cf_email
+  account_admin = var.cf_email
 }
 
 module "github" {
-    source = "./github"    
+  source = "./github"
 }
 
 module "google" {
-    source = "./google"
+  source = "./google"
 
-    project_id = var.gcp_project_id
+  project_id = var.gcp_project_id
 }
 
 
 module "kubernetes" {
-    source = "./kubernetes"
+  source = "./kubernetes"
 }
