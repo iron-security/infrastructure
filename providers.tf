@@ -1,24 +1,23 @@
 terraform {
     required_version = ">= v1.0.6"
     
-    /*
     backend "gcs" {
-        bucket = "terraform-state"
+        bucket = "ironsecurity-terraform-state"
         prefix = "terraform/state"
     }
-    */
 
     required_providers {
         cloudflare = {
             source = "cloudflare/cloudflare"
-            version = ">= 2.26.1"
+            version = ">= 3.1.0"
         }
 
         github = {
-            version = ">= 4.14.0"
+            version = "= 4.14.0"
         }
 
         google = {
+            source  = "hashicorp/google-beta"
             version = ">= 3.84.0"
         }
 
@@ -44,7 +43,7 @@ provider github {
 }
 
 provider google {
-    project     = var.project_id
+    project     = var.gcp_project_id
     region      = var.gcloud_region
 }
 

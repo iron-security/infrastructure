@@ -7,3 +7,9 @@ module "cloudflare" {
 module "github" {
     source = "./github"    
 }
+
+module "google" {
+    source = "./google"
+
+    project_id = var.gcp_project_id
+}

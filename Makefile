@@ -23,6 +23,8 @@ create-terraform-account:
 	gcloud --project $(PROJECT_ID) iam service-accounts keys create $(TERRAFORM_AUTH) \
 		--iam-account "terraform-sa@$(PROJECT_ID).iam.gserviceaccount.com"
 	chmod u=r,g=,o= terraform-sa.json
+
+set-terraform-permissions:
 	gcloud projects add-iam-policy-binding $(PROJECT_ID) \
 		--member "serviceAccount:terraform-sa@$(PROJECT_ID).iam.gserviceaccount.com" \
 		--role roles/editor \
@@ -46,7 +48,7 @@ enable-services:
 
 create-state-bucket:
 	gsutil mb -p $(PROJECT_ID) -c NEARLINE -l eu -b on gs://terraform-gcloud-state
-	gsutil versioning set on gs://terraform-gcloud-state
+		
 
 setup-helm:
 	GOOGLE_APPLICATION_CREDENTIALS="terraform-sa.json" \
@@ -67,12 +69,14 @@ validate:
 	terraform -chdir=$(TERRAFORM_DIR) validate .
 
 plan:
+	@if [ -f dev.env ]; then source dev.env; fi
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) plan \
 		-lock=false \
 		-input=false
 		
 apply:
+	@if [ -f dev.env ]; then source dev.env; fi
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) apply \
 		-auto-approve \
@@ -80,11 +84,13 @@ apply:
 		-input=false
 
 destroy:
+	@if [ -f dev.env ]; then source dev.env; fi
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) destroy \
 		-input=false
 
 destroy-helm:
+	@if [ -f dev.env ]; then source dev.env; fi
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) destroy \
 		-input=false \
@@ -93,5 +99,6 @@ destroy-helm:
 		-target=helm_release.dev_web
 
 refresh:
+	@if [ -f dev.env ]; then source dev.env; fi
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) refresh

@@ -1,3 +1,4 @@
+// redirect ironsecurity.be -> iron.security
 resource "cloudflare_page_rule" "redirect_be_website" {
   actions {
     forwarding_url {
