@@ -13,6 +13,7 @@ terraform {
         }
 
         github = {
+            source  = "hashicorp/github"
             version = "= 4.14.0"
         }
 
@@ -22,10 +23,12 @@ terraform {
         }
 
         kubernetes = {
+            source  = "hashicorp/kubernetes"
             version = ">= 2.5.0"
         }
 
         helm = {
+            source  = "hashicorp/helm"
             version = ">= 2.3.0"
         }
     }
