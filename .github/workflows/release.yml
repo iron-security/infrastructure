@@ -26,7 +26,7 @@ jobs:
       name: create deployment
       uses: niklasmerz/github-deployment-action@v1.1.0
       env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -c main -e production
     -
@@ -48,7 +48,7 @@ jobs:
       name: set deployment status
       uses: niklasmerz/github-deployment-action@v1.1.0
       env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s success -u https://iron.security/ -f
     -
@@ -56,7 +56,7 @@ jobs:
       uses: niklasmerz/github-deployment-action@v1.1.0
       if: ${{ failure() }}
       env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s failed -u https://iron.security/ -f
     -
