@@ -2,7 +2,7 @@ name: test
 on: [pull_request]
 
 env:
-  TF_LOG: WARN
+  TF_LOG: INFO
   GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
 
 jobs:
