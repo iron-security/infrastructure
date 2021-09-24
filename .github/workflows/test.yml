@@ -16,7 +16,6 @@ jobs:
       uses: hashicorp/setup-terraform@v1
     -
       name: Terraform fmt
-      id: fmt
       run: terraform fmt -check
     -
       run: 'echo "${TERRAFORM_SA}" > terraform-sa.json'
@@ -24,15 +23,12 @@ jobs:
         TERRAFORM_SA: ${{ secrets.TERRAFORM_SA }}
     -
       name: Terraform Init
-      id: init
       run: terraform init
     -
       name: Terraform Validate
-      id: validate
       run: terraform validate -no-color
     -
       name: Terraform Plan
-      id: plan
       run: terraform plan -no-color -lock=false -input=false
     -
       name: Terraform feedback

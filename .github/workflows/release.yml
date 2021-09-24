@@ -35,14 +35,13 @@ jobs:
         TERRAFORM_SA: ${{ secrets.TERRAFORM_SA }}
     -
       name: Terraform Init
-      id: init
       run: terraform init
     -
       name: Terraform Validate
       run: terraform validate -no-color
     -
       name: Terraform Apply
-      run: terraform apply -no-color
+      run: terraform apply -no-color -input=false -lock=true -auto-approve
     -
       name: set deployment status
       uses: niklasmerz/github-deployment-action@master
