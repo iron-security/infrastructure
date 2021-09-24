@@ -69,14 +69,14 @@ validate:
 	terraform -chdir=$(TERRAFORM_DIR) validate .
 
 plan:
-	@if [ -f dev.env ]; then source dev.env; fi
+	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) plan \
 		-lock=false \
 		-input=false
 		
 apply:
-	@if [ -f dev.env ]; then source dev.env; fi
+	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) apply \
 		-auto-approve \
@@ -84,13 +84,13 @@ apply:
 		-input=false
 
 destroy:
-	@if [ -f dev.env ]; then source dev.env; fi
+	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) destroy \
 		-input=false
 
 destroy-helm:
-	@if [ -f dev.env ]; then source dev.env; fi
+	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) destroy \
 		-input=false \
@@ -99,6 +99,6 @@ destroy-helm:
 		-target=helm_release.dev_web
 
 refresh:
-	@if [ -f dev.env ]; then source dev.env; fi
+	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) refresh
