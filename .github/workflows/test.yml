@@ -66,3 +66,7 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+    -
+      name: Cleanup
+      if: always()
+      run: rm "${GOOGLE_APPLICATION_CREDENTIALS}" || true
