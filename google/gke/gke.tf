@@ -70,22 +70,20 @@ resource "google_container_cluster" "main_cluster" {
   }
 
   # TODO: use google groups for IAM
-  # checkov:skip=CKV_GCP_66
+  # checkov:skip=CKV_GCP_65
 
   # TODO: enable Binary Authorization
   # https://github.com/CircleCI-Public/gcp-binary-authorization-orb
   # checkov:skip=CKV_GCP_66
   enable_binary_authorization = false
 
-  # TODO: figure out why checkov flags client cert auth here
-  # checkov:skip=CKV_GCP_13
   master_auth {
     # disable basic auth for security reasons
     username = ""
     password = ""
 
     client_certificate_config {
-      issue_client_certificate = true
+      issue_client_certificate = false
     }
   }
 
