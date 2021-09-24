@@ -1,0 +1,37 @@
+name: lint
+on: [pull_request]
+
+env:
+  TF_LOG: WARN
+  GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
+
+jobs:
+  lint:
+    name: terraform
+    runs-on: ubuntu-latest
+    steps: 
+    -
+      uses: actions/checkout@v2
+    -
+      uses: hashicorp/setup-terraform@v1
+    -
+      name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: false
+    -
+      run: 'echo "${TERRAFORM_SA}" > terraform-sa.json'
+      env:
+        TERRAFORM_SA: ${{ secrets.TERRAFORM_SA }}
+    -
+      name: Terraform Init
+      run: terraform init
+    -
+      name: Terraform lint
+      uses: reviewdog/action-tflint@master
+      with:
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-review
+        fail-on-error: true
+
+    
