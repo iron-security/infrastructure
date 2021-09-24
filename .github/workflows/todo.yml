@@ -1,0 +1,18 @@
+name: todo
+on:
+  push:
+    branches: [main,master,dev]
+jobs:
+  todo:
+    runs-on: "ubuntu-latest"
+    steps:
+    -
+      uses: actions/checkout@v2
+    -
+      name: Check Todos
+      uses: ribtoks/tdg-github-action@v0.4.5-beta
+      with:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO: ${{ github.repository }}
+        SHA: ${{ github.sha }}
+        REF: ${{ github.ref }}
