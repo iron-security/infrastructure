@@ -28,7 +28,7 @@ jobs:
       run: terraform init
     -
       name: Terraform lint
-      uses: reviewdog/action-tflint@master
+      uses: reviewdog/action-tflint@v1.13.0
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review

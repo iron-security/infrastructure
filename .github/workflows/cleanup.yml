@@ -12,4 +12,4 @@ jobs:
     -
       uses: rokroskar/workflow-run-cleanup-action@v0.3.3
       env:
-        github_token: "${{ secrets.github_token }}"
+        github_token: "${{ secrets.GITHUB_TOKEN }}"

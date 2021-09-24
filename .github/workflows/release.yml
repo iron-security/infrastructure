@@ -24,7 +24,7 @@ jobs:
         github-token: ${{ secrets.github_token }}
     -
       name: create deployment
-      uses: niklasmerz/github-deployment-action@master
+      uses: niklasmerz/github-deployment-action@v1.1.0
       env:
         github_token: ${{ secrets.github_token }}
       with:
@@ -46,14 +46,14 @@ jobs:
       run: terraform apply -no-color -input=false -lock=true -auto-approve -input=false
     -
       name: set deployment status
-      uses: niklasmerz/github-deployment-action@master
+      uses: niklasmerz/github-deployment-action@v1.1.0
       env:
         github_token: ${{ secrets.github_token }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s success -u https://iron.security/ -f
     -
       name: set failed deployment
-      uses: niklasmerz/github-deployment-action@master
+      uses: niklasmerz/github-deployment-action@v1.1.0
       if: ${{ failure() }}
       env:
         github_token: ${{ secrets.github_token }}
