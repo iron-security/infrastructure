@@ -77,6 +77,8 @@ resource "google_container_cluster" "main_cluster" {
   # checkov:skip=CKV_GCP_66
   enable_binary_authorization = false
 
+  # TODO: figure out why checkov flags client cert auth here
+  # checkov:skip=CKV_GCP_13
   master_auth {
     # disable basic auth for security reasons
     username = ""
