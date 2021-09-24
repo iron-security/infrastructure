@@ -17,3 +17,25 @@ jobs:
       with:
         framework: terraform 
         quiet: true
+  
+  trivy:
+    name: trivy
+    runs-on: ubuntu-latest
+    steps:
+    -
+      uses: actions/checkout@v2
+    -
+      name: Run Trivy vulnerability scanner in IaC mode
+      uses: aquasecurity/trivy-action@v0.0.20
+      with:
+        scan-type: 'config'
+        hide-progress: false
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH,MEDIUM'
+    -
+      name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: 'trivy-results.sarif'
