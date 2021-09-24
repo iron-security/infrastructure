@@ -4,7 +4,6 @@ on:
   push:
     branches: [main,master]
 
-
 env:
   TF_LOG: INFO
   GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
@@ -41,7 +40,7 @@ jobs:
       run: terraform validate -no-color
     -
       name: Terraform Apply
-      run: terraform apply -no-color -input=false -lock=true -auto-approve
+      run: terraform apply -no-color -input=false -lock=true -auto-approve -input=false
     -
       name: set deployment status
       uses: niklasmerz/github-deployment-action@master
