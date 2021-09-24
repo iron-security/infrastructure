@@ -56,11 +56,6 @@ resource "google_container_cluster" "main_cluster" {
     # disable basic auth for security reasons
     username = ""
     password = ""
-
-    # use client certificate authentication
-    client_certificate_config {
-      issue_client_certificate = true
-    }
   }
 
   master_authorized_networks_config {
