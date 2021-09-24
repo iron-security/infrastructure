@@ -25,8 +25,13 @@ resource "helm_release" "platform_dev" {
     chart   = "platform/apigw"
     version = local.dev_platform_version
 
-    values = <<EOF
-        replicaCount = 2
-        log.levle = "debug"
-    EOF
+    set {
+        name  = "replicaCount"
+        value = 2
+    }
+
+    set {
+        name  = "log.level"
+        value = "debug"
+    }
 }

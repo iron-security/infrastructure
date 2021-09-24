@@ -17,4 +17,12 @@ module "google" {
 
 module "kubernetes" {
   source = "./kubernetes"
+  
+  depends_on = [ module.google ]
+}
+
+module "helm" {
+  source = "./helm"
+
+  depends_on = [ module.kubernetes ]
 }

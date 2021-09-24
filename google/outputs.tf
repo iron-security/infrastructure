@@ -3,9 +3,14 @@ output "cluster_ca_certificate" {
 }
 
 data "google_client_config" "default" {}
-output "cluster_client_token" {
+
+output "cluster_client_certificate" {
+    value = base64decode(google_container_cluster.main_cluster.master_auth[0].client_certificate)
+}
+
+output "cluster_client_key" {
     sensitive = true
-    value = data.google_client_config.default.access_token
+    value = base64decode(google_container_cluster.main_cluster.master_auth[0].client_key)
 }
 
 output "cluster_endpoint" {
