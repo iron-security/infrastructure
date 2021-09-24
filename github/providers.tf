@@ -1,5 +1,5 @@
 terraform {
-    required_providers {
-        github = {}
-    }
+  required_providers {
+    github = {}
+  }
 }

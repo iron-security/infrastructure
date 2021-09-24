@@ -1,7 +1,7 @@
 terraform {
-    required_providers {
-        cloudflare = {
-            source = "cloudflare/cloudflare"
-        }
+  required_providers {
+    cloudflare = {
+      source = "cloudflare/cloudflare"
     }
+  }
 }

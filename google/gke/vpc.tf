@@ -1,18 +1,18 @@
 # VPC
 resource "google_compute_network" "gke_cluster_vpc" {
   project                 = var.project_id
-  name                    = "${var.k8s_cluster_name}-vpc"
+  name                    = "${var.cluster_name}-vpc"
   auto_create_subnetworks = false
   #delete_default_routes_on_create = true
 }
 
 # Subnet
 resource "google_compute_subnetwork" "gke_cluster_subnet" {
-  project       = var.project_id
-  name          = "${var.k8s_cluster_name}-subnet"
-  region        = var.region
-  network       = google_compute_network.gke_cluster_vpc.name
-  ip_cidr_range = "10.10.0.0/16"
+  project                  = var.project_id
+  name                     = "${var.cluster_name}-subnet"
+  region                   = var.cluster_region
+  network                  = google_compute_network.gke_cluster_vpc.name
+  ip_cidr_range            = var.cluster_subnet
   private_ip_google_access = false
 
   log_config {
@@ -25,7 +25,7 @@ resource "google_compute_subnetwork" "gke_cluster_subnet" {
 resource "google_compute_global_address" "k8s_vpc_private_ips" {
   project = var.project_id
 
-  name          = "private-gke-vpc-ips"
+  name          = "gke-${var.cluster_name}-private-vpc-ips"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
@@ -40,7 +40,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 
 resource "google_compute_route" "egress_internet" {
   project          = var.project_id
-  name             = "route-egress-internet"
+  name             = "gke-${var.cluster_name}-route-egress-internet"
   dest_range       = "0.0.0.0/0"
   network          = google_compute_network.gke_cluster_vpc.name
   next_hop_gateway = "default-internet-gateway"
@@ -48,7 +48,7 @@ resource "google_compute_route" "egress_internet" {
 
 resource "google_compute_router" "gke_vpc_router" {
   project = var.project_id
-  name    = "k8svpc-router"
+  name    = "gke-${var.cluster_name}-router"
   region  = google_compute_subnetwork.gke_cluster_subnet.region
   network = google_compute_network.gke_cluster_vpc.name
 }
@@ -56,13 +56,13 @@ resource "google_compute_router" "gke_vpc_router" {
 resource "google_compute_router_nat" "nat_router" {
   project = var.project_id
 
-  name                               = "${google_compute_subnetwork.gke_cluster_subnet.name}-nat-router"
-  router                             = google_compute_router.gke_vpc_router.name
-  region                             = google_compute_router.gke_vpc_router.region
-  nat_ip_allocate_option             = "MANUAL_ONLY"
+  name                   = "${google_compute_subnetwork.gke_cluster_subnet.name}-nat-router"
+  router                 = google_compute_router.gke_vpc_router.name
+  region                 = google_compute_router.gke_vpc_router.region
+  nat_ip_allocate_option = "MANUAL_ONLY"
 
   nat_ips = [
-    google_compute_address.nat_egress_address.id,
+    var.nat_egress_address_id,
   ]
 
   # only the gke nodes should be able to NAT to egress
