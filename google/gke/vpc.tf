@@ -8,11 +8,11 @@ resource "google_compute_network" "gke_cluster_vpc" {
 
 # Subnet
 resource "google_compute_subnetwork" "gke_cluster_subnet" {
-  project       = var.project_id
-  name          = "${var.cluster_name}-subnet"
-  region        = var.cluster_region
-  network       = google_compute_network.gke_cluster_vpc.name
-  ip_cidr_range = var.cluster_subnet
+  project                  = var.project_id
+  name                     = "${var.cluster_name}-subnet"
+  region                   = var.cluster_region
+  network                  = google_compute_network.gke_cluster_vpc.name
+  ip_cidr_range            = var.cluster_subnet
   private_ip_google_access = false
 
   log_config {
@@ -56,10 +56,10 @@ resource "google_compute_router" "gke_vpc_router" {
 resource "google_compute_router_nat" "nat_router" {
   project = var.project_id
 
-  name                               = "${google_compute_subnetwork.gke_cluster_subnet.name}-nat-router"
-  router                             = google_compute_router.gke_vpc_router.name
-  region                             = google_compute_router.gke_vpc_router.region
-  nat_ip_allocate_option             = "MANUAL_ONLY"
+  name                   = "${google_compute_subnetwork.gke_cluster_subnet.name}-nat-router"
+  router                 = google_compute_router.gke_vpc_router.name
+  region                 = google_compute_router.gke_vpc_router.region
+  nat_ip_allocate_option = "MANUAL_ONLY"
 
   nat_ips = [
     var.nat_egress_address_id,
