@@ -4,9 +4,9 @@ on: [pull_request]
 env:
   TF_LOG: INFO
   GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
-  TF_VAR_CF_EMAIL: ${{ secrets.CF_EMAIL }}
-  TF_VAR_CF_API_KEY: ${{ secrets.CF_API_KEY }}
-  TF_VAR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
+  TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
+  TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
 
 jobs:
   test:

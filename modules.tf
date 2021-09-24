@@ -1,7 +1,7 @@
 module "cloudflare" {
   source = "./cloudflare"
 
-  account_admin = var.CF_EMAIL
+  account_admin = var.cf_email
 }
 
 module "github" {

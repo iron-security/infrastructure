@@ -10,9 +10,9 @@ This repository contains the [Terraform](https://www.terraform.io/) configuratio
 
 # create a development file with your secrets
 % vim dev.env
-# export TF_VAR_CF_EMAIL=""
-# export TF_VAR_CF_API_KEY=""
-# export TF_VAR_GITHUB_TOKEN=""
+# export TF_VAR_cf_email=""
+# export TF_VAR_cf_api_key=""
+# export TF_VAR_github_token=""
 
 # ensure you have a billing account associated in GCP
 # https://console.cloud.google.com/billing/linkedaccount

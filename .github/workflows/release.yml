@@ -7,9 +7,9 @@ on:
 env:
   TF_LOG: INFO
   GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
-  TF_VAR_CF_EMAIL: ${{ secrets.CF_EMAIL }}
-  TF_VAR_CF_API_KEY: ${{ secrets.CF_API_KEY }}
-  TF_VAR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
+  TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
+  TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
 
 jobs:
   deploy:
@@ -21,12 +21,12 @@ jobs:
     -
       uses: go-semantic-release/action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.github_token }}
     -
       name: create deployment
       uses: niklasmerz/github-deployment-action@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.github_token }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -c main -e production
     -
@@ -48,7 +48,7 @@ jobs:
       name: set deployment status
       uses: niklasmerz/github-deployment-action@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.github_token }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s success -u https://iron.security/ -f
     -
@@ -56,7 +56,7 @@ jobs:
       uses: niklasmerz/github-deployment-action@master
       if: ${{ failure() }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.github_token }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s failed -u https://iron.security/ -f
     -

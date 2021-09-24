@@ -1,8 +1,8 @@
 # cloudflare email
-variable "CF_EMAIL" {}
+variable "cf_email" {}
 
 # cloudflare api key
-variable "CF_API_KEY" {}
+variable "cf_api_key" {}
 
 # cloudflare account id
 variable "cf_account_id" {
@@ -10,7 +10,7 @@ variable "cf_account_id" {
 }
 
 # github API token
-variable "GITHUB_TOKEN" {}
+variable "github_token" {}
 
 # github org/owner slug
 variable "github_owner" {
