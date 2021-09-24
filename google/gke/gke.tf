@@ -13,6 +13,7 @@ resource "google_container_cluster" "main_cluster" {
   }
 
   min_master_version = var.k8s_min_version
+  
   release_channel {
     channel = var.k8s_release_channel
   }
@@ -34,6 +35,10 @@ resource "google_container_cluster" "main_cluster" {
     enabled = true
   }
 
+  pod_security_policy_config {
+    enabled = true
+  }
+
   private_cluster_config {
     # GKE nodes should be private so only LBs can be used to reach services
     enable_private_nodes = true
@@ -43,6 +48,10 @@ resource "google_container_cluster" "main_cluster" {
     master_ipv4_cidr_block = "10.20.0.0/28"
   }
 
+  # TODO: enable Binary Authorization
+  # https://github.com/CircleCI-Public/gcp-binary-authorization-orb
+  enable_binary_authorization = false
+
   master_auth {
     # disable basic auth for security reasons
     username = ""
@@ -51,6 +60,12 @@ resource "google_container_cluster" "main_cluster" {
     # use client certificate authentication
     client_certificate_config {
       issue_client_certificate = true
+    }
+  }
+
+  master_authorized_networks_config {
+    cidr_blocks {
+      cidr_block = var.cluster_subnet
     }
   }
 

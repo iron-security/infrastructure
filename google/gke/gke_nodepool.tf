@@ -6,6 +6,7 @@ resource "google_container_node_pool" "main_preemptible_nodes" {
   node_config {
     preemptible  = true
     machine_type = var.node_machine_type
+    image_type   = "COS"
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.node_default.email
@@ -15,6 +16,11 @@ resource "google_container_node_pool" "main_preemptible_nodes" {
 
     workload_metadata_config {
       node_metadata = "GKE_METADATA_SERVER"
+    }
+
+    shielded_instance_config {
+      enable_integrity_monitoring = true
+      enable_secure_boot          = true
     }
   }
 

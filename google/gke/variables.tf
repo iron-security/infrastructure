@@ -23,8 +23,9 @@ variable "k8s_release_channel" {
 }
 
 # minimum version of kubernetes to require
+# see https://docs.bridgecrew.io/docs/ensure-legacy-compute-engine-instance-metadata-apis-are-disabled
 variable "k8s_min_version" {
-  default = "latest"
+  default = "1.12"
 }
 
 # minimum amount of nodes to run
