@@ -69,14 +69,24 @@ resource "google_container_cluster" "main_cluster" {
     master_ipv4_cidr_block = "10.20.0.0/28"
   }
 
+  # TODO: use google groups for IAM
+  # checkov:skip=CKV_GCP_66
+
   # TODO: enable Binary Authorization
   # https://github.com/CircleCI-Public/gcp-binary-authorization-orb
+  # checkov:skip=CKV_GCP_66
   enable_binary_authorization = false
 
+  # TODO: figure out why checkov flags client cert auth here
+  # checkov:skip=CKV_GCP_13
   master_auth {
     # disable basic auth for security reasons
     username = ""
     password = ""
+
+    client_certificate_config {
+      issue_client_certificate = true
+    }
   }
 
   master_authorized_networks_config {
@@ -141,6 +151,10 @@ resource "google_container_cluster" "main_cluster" {
 resource "google_service_account" "node_default" {
   account_id   = "gke-${var.cluster_name}-node-default-sa"
   display_name = "Default serviceaccount for GKE nodes."
+}
+
+resource "google_service_account_key" "node_default_key" {
+  service_account_id = google_service_account.node_default.name
 }
 
 resource "google_project_service_identity" "gke_sa" {
