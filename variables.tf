@@ -26,3 +26,11 @@ variable "gcp_project_id" {
 variable "gcloud_region" {
   default = "europe-west1"
 }
+
+# this indicates that we skip the helm/kubernetes providers and only run the google one
+# this fixes a nasty limitation of Terraform where you can't plan/apply on things that are
+# not known yet, like the kubernetes cluster credentials/hostname, resulting
+# in errors like "Error: Get "http://localhost/api/v1/namespaces": dial tcp [::1]:80: connect: connection refused"
+variable "skip_kubernetes_deploy" {
+  default = false
+}

@@ -58,3 +58,5 @@ provider "kubernetes" {
   client_certificate     = module.google.cluster_client_certificate
   client_key             = module.google.cluster_client_key  
 }
+
+provider "helm" {}

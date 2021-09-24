@@ -1,11 +1,12 @@
-name: Test
+name: test
 on: [pull_request]
 
 env:
   TF_LOG: WARN
+  GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
 
 jobs:
-  testterraform:
+  test:
     name: terraform
     runs-on: ubuntu-latest
     steps: 
@@ -26,6 +27,10 @@ jobs:
       name: Terraform Validate
       id: validate
       run: terraform validate -no-color
+    -
+      run: 'echo "${TERRAFORM_SA}" > terraform-sa.json'
+      env:
+        TERRAFORM_SA: ${{ secrets.TERRAFORM_SA }}
     -
       name: Terraform Plan
       id: plan

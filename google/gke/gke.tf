@@ -4,8 +4,8 @@ resource "google_container_cluster" "main_cluster" {
     ]
 
     project            = var.project_id
-    name               = var.k8s_cluster_name
-    location           = var.region
+    name               = var.cluster_name
+    location           = var.cluster_location
 
     resource_labels = {
         cluster = "main"
@@ -17,15 +17,9 @@ resource "google_container_cluster" "main_cluster" {
         channel = var.k8s_release_channel
     }
 
+    initial_node_count = 1
     remove_default_node_pool = true
     enable_shielded_nodes    = true
-
-    node_config {
-        service_account = google_service_account.node_default.email
-        oauth_scopes = [
-            "https://www.googleapis.com/auth/cloud-platform"
-        ]
-    }
 
     workload_identity_config {
         identity_namespace = "${var.project_id}.svc.id.goog"
@@ -93,8 +87,6 @@ resource "google_container_cluster" "main_cluster" {
         }
     }
 
-    initial_node_count = 1
-
     network         = google_compute_network.gke_cluster_vpc.name
     subnetwork      = google_compute_subnetwork.gke_cluster_subnet.name
     networking_mode = "VPC_NATIVE"
@@ -116,7 +108,7 @@ resource "google_container_cluster" "main_cluster" {
 }
 
 resource "google_service_account" "node_default" {
-    account_id   = "node-default-sa"
+    account_id   = "gke-${var.cluster_name}-node-default-sa"
     display_name = "Default serviceaccount for GKE nodes."
 }
 
