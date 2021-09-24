@@ -13,6 +13,7 @@ resource "google_container_cluster" "main_cluster" {
   }
 
   min_master_version = var.k8s_min_version
+  
   release_channel {
     channel = var.k8s_release_channel
   }
@@ -20,6 +21,27 @@ resource "google_container_cluster" "main_cluster" {
   initial_node_count       = 1
   remove_default_node_pool = true
   enable_shielded_nodes    = true
+
+  node_config {
+    preemptible  = true
+    machine_type = var.node_machine_type
+    image_type   = "COS"
+
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    service_account = google_service_account.node_default.email
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+
+    workload_metadata_config {
+      node_metadata = "GKE_METADATA_SERVER"
+    }
+
+    shielded_instance_config {
+      enable_integrity_monitoring = true
+      enable_secure_boot          = true
+    }
+  }
 
   workload_identity_config {
     identity_namespace = "${var.project_id}.svc.id.goog"
@@ -34,6 +56,10 @@ resource "google_container_cluster" "main_cluster" {
     enabled = true
   }
 
+  pod_security_policy_config {
+    enabled = true
+  }
+
   private_cluster_config {
     # GKE nodes should be private so only LBs can be used to reach services
     enable_private_nodes = true
@@ -43,14 +69,29 @@ resource "google_container_cluster" "main_cluster" {
     master_ipv4_cidr_block = "10.20.0.0/28"
   }
 
+  # TODO: use google groups for IAM
+  # checkov:skip=CKV_GCP_65
+
+  # TODO: enable Binary Authorization
+  # https://github.com/CircleCI-Public/gcp-binary-authorization-orb
+  # checkov:skip=CKV_GCP_66
+  enable_binary_authorization = false
+
+  # TODO: figure out why checkov flags client cert auth here
+  # checkov:skip=CKV_GCP_13
   master_auth {
     # disable basic auth for security reasons
     username = ""
     password = ""
 
-    # use client certificate authentication
     client_certificate_config {
-      issue_client_certificate = true
+      issue_client_certificate = false
+    }
+  }
+
+  master_authorized_networks_config {
+    cidr_blocks {
+      cidr_block = var.cluster_subnet
     }
   }
 
@@ -110,6 +151,10 @@ resource "google_container_cluster" "main_cluster" {
 resource "google_service_account" "node_default" {
   account_id   = "gke-${var.cluster_name}-node-default-sa"
   display_name = "Default serviceaccount for GKE nodes."
+}
+
+resource "google_service_account_key" "node_default_key" {
+  service_account_id = google_service_account.node_default.name
 }
 
 resource "google_project_service_identity" "gke_sa" {

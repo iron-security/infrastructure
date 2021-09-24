@@ -3,16 +3,40 @@ on: [pull_request]
 
 jobs:
   checkov:
-    name: terraform
+    name: checkov
     runs-on: ubuntu-latest
     steps:
     -
-        uses: actions/checkout@v2
+      uses: actions/checkout@v2
     -
-        name: Set up Python
-        uses: actions/setup-python@v2
+      name: Set up Python
+      uses: actions/setup-python@v2
     -
-        name: Test with Checkov
-        run: |
-          pip install checkov
-          checkov -d terraform/
+      name: Test with Checkov
+      uses: bridgecrewio/checkov-action@v12.641.0
+      with:
+        framework: terraform 
+        quiet: true
+  
+  trivy:
+    name: trivy
+    runs-on: ubuntu-latest
+    steps:
+    -
+      uses: actions/checkout@v2
+    -
+      name: Run Trivy vulnerability scanner in IaC mode
+      uses: aquasecurity/trivy-action@0.0.20
+      with:
+        scan-type: 'config'
+        hide-progress: false
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH,MEDIUM'
+    -
+      name: Upload Trivy scan results to GitHub Security tab
+      if: always()
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: 'trivy-results.sarif'

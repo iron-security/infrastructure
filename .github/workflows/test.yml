@@ -2,8 +2,11 @@ name: test
 on: [pull_request]
 
 env:
-  TF_LOG: WARN
+  TF_LOG: INFO
   GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
+  TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
+  TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
+  TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
 
 jobs:
   test:
@@ -16,56 +19,20 @@ jobs:
       uses: hashicorp/setup-terraform@v1
     -
       name: Terraform fmt
-      id: fmt
       run: terraform fmt -check
-      continue-on-error: false
     -
       run: 'echo "${TERRAFORM_SA}" > terraform-sa.json'
       env:
         TERRAFORM_SA: ${{ secrets.TERRAFORM_SA }}
     -
       name: Terraform Init
-      id: init
       run: terraform init
     -
       name: Terraform Validate
-      id: validate
       run: terraform validate -no-color
     -
       name: Terraform Plan
-      id: plan
-      run: terraform plan -no-color
-      continue-on-error: true
-    -
-      name: Terraform feedback
-      uses: actions/github-script@0.9.0
-      if: github.event_name == 'pull_request'
-      env:
-        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-          #### Terraform Validation 🤖\`${{ steps.validate.outputs.stdout }}\`
-          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-          
-          <details><summary>Show Plan</summary>
-          
-          \`\`\`\n
-          ${process.env.PLAN}
-          \`\`\`
-          
-          </details>
-          
-          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
-            
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
+      run: terraform plan -no-color -lock=false -input=false
     -
       name: Cleanup
       if: always()

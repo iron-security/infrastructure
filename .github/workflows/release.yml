@@ -4,10 +4,12 @@ on:
   push:
     branches: [main,master]
 
-
 env:
-  TF_LOG: WARN
+  TF_LOG: INFO
   GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
+  TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
+  TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
+  TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
 
 jobs:
   deploy:
@@ -19,12 +21,12 @@ jobs:
     -
       uses: go-semantic-release/action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.github_token }}
     -
       name: create deployment
-      uses: niklasmerz/github-deployment-action@master
+      uses: niklasmerz/github-deployment-action@v1.1.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.github_token }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -c main -e production
     -
@@ -35,27 +37,26 @@ jobs:
         TERRAFORM_SA: ${{ secrets.TERRAFORM_SA }}
     -
       name: Terraform Init
-      id: init
       run: terraform init
     -
       name: Terraform Validate
       run: terraform validate -no-color
     -
       name: Terraform Apply
-      run: terraform apply -no-color
+      run: terraform apply -no-color -input=false -lock=true -auto-approve -input=false
     -
       name: set deployment status
-      uses: niklasmerz/github-deployment-action@master
+      uses: niklasmerz/github-deployment-action@v1.1.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.github_token }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s success -u https://iron.security/ -f
     -
       name: set failed deployment
-      uses: niklasmerz/github-deployment-action@master
+      uses: niklasmerz/github-deployment-action@v1.1.0
       if: ${{ failure() }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.github_token }}
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s failed -u https://iron.security/ -f
     -
