@@ -23,3 +23,11 @@ This repository contains the [Terraform](https://www.terraform.io/) configuratio
 # and now we can finally bring up our infrastructure!
 % make init validate plan apply
 ```
+
+## Overview
+
+- `cloudflare/`: the configuration for our Cloudflare DNS service.
+- `github/`: the configuration for our GitHub repositories, teams and memberships.
+- `google/`: the configuration for our Google Cloud Platform resources, including GKE.
+- `kubernetes/`: the configuration for the basic resources on our Kubernetes cluster such as namespaces.
+- `helm/`: the configuration for our Helm deployments on the Kubernetes cluster.
