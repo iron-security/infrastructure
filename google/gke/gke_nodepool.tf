@@ -8,6 +8,10 @@ resource "google_container_node_pool" "main_preemptible_nodes" {
     machine_type = var.node_machine_type
     image_type   = "COS"
 
+    sandbox_config {
+      sandbox_type = "gvisor"
+    }
+
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.node_default.email
     oauth_scopes = [
