@@ -40,5 +40,5 @@ variable "gke_max_node_count" {
 
 # machine type for the kubernetes worker nodes
 variable "node_machine_type" {
-  default = "e2-micro"
+  default = "n1-standard-1"
 }

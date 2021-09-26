@@ -22,31 +22,6 @@ resource "google_container_cluster" "main_cluster" {
   remove_default_node_pool = true
   enable_shielded_nodes    = true
 
-  node_config {
-    preemptible  = true
-    machine_type = var.node_machine_type
-    image_type   = "COS"
-
-    sandbox_config {
-      sandbox_type = "gvisor"
-    }
-
-    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    service_account = google_service_account.node_default.email
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/cloud-platform"
-    ]
-
-    workload_metadata_config {
-      node_metadata = "GKE_METADATA_SERVER"
-    }
-
-    shielded_instance_config {
-      enable_integrity_monitoring = true
-      enable_secure_boot          = true
-    }
-  }
-
   workload_identity_config {
     identity_namespace = "${var.project_id}.svc.id.goog"
   }
@@ -154,11 +129,9 @@ resource "google_service_account" "node_default" {
   account_id   = "gke-${var.cluster_name}-node-default-sa"
   display_name = "Default serviceaccount for GKE nodes."
 }
-
 resource "google_service_account_key" "node_default_key" {
   service_account_id = google_service_account.node_default.name
 }
-
 resource "google_project_service_identity" "gke_sa" {
   project = var.project_id
   service = "container.googleapis.com"

@@ -6,7 +6,7 @@ resource "google_container_node_pool" "main_preemptible_nodes" {
   node_config {
     preemptible  = true
     machine_type = var.node_machine_type
-    image_type   = "COS"
+    image_type   = "cos_containerd"
 
     sandbox_config {
       sandbox_type = "gvisor"
