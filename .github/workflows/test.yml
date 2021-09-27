@@ -2,7 +2,7 @@ name: test
 on: [pull_request]
 
 env:
-  TF_LOG: DEBUG
+  TF_LOG: INFO
   TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
   TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
   TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
@@ -43,4 +43,8 @@ jobs:
     -
       name: Terraform Plan
       run: terraform plan -no-color -lock=false -input=false
+    -
+      name: Cleanup
+      if: always()
+      run: rm "${GOOGLE_APPLICATION_CREDENTIALS}" || true
 
