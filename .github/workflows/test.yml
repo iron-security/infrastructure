@@ -39,7 +39,7 @@ jobs:
     -
       name: 'gcloud login'
       run: |-
-        gcloud auth login --brief --cred-file="${{ steps.gcloud_auth.outputs.credentials_file_path }}" --update-adc
+        gcloud auth login --brief --cred-file="${{ steps.gcloud_auth.outputs.credentials_file_path }}"
     -
       name: Terraform Init
       run: terraform init
