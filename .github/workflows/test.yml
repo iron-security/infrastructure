@@ -28,6 +28,7 @@ jobs:
       uses: google-github-actions/auth@v0.3.0
       id: gcloud_auth
       with:
+        token_format: access_token
         access_token_lifetime: 900s
         workload_identity_provider: projects/ironsecurity/locations/global/workloadIdentityPools/main-pool/providers/github
         service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
@@ -44,6 +45,8 @@ jobs:
     -
       name: Terraform Init
       run: terraform init
+      env:
+        GCP_TOKEN: ${{ steps.gcloud_auth.outputs.access_token }}
     -
       name: Terraform Validate
       run: terraform validate -no-color
