@@ -3,7 +3,7 @@ on: [pull_request]
 
 env:
   TF_LOG: INFO
-  GOOGLE_APPLICATION_CREDENTIALS: terraform-sa.json
+  TERRAFORM_SA: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
   TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
   TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
   TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
@@ -19,11 +19,16 @@ jobs:
       uses: hashicorp/setup-terraform@v1
     -
       name: Terraform fmt
-      run: terraform fmt -check
+      run: terraform fmt -check=true
     -
-      run: 'echo "${TERRAFORM_SA}" > terraform-sa.json'
-      env:
-        TERRAFORM_SA: ${{ secrets.TERRAFORM_SA }}
+      name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v0.3.0
+      with:
+        access_token_lifetime: 900s
+        workload_identity_provider: projects/1049058775616/locations/global/workloadIdentityPools/cicd-pool/providers/github
+        service_account: ${{ env.TERRAFORM_SA }}
+        create_credentials_file: true
+        activate_credentials_file: true
     -
       name: Terraform Init
       run: terraform init

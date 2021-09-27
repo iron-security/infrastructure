@@ -2,6 +2,12 @@
 
 This repository contains the [Terraform](https://www.terraform.io/) configuration that steers the infrastructure that is used to run the IRON platform.
 
+## Authentication
+
+For [Cloudflare](https://cloudflare.com/) and [GitHub](https://github.com/), we rely on scoped authentication tokens as a GitHub Action secret.
+
+For Google Cloud, we rely on identity federation by using the [Google Auth GitHub Action](https://github.com/google-github-actions/auth#setup) which scopes a Google Cloud service account to this repository nicely.
+
 ## Usage
 
 ```shell

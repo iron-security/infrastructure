@@ -45,6 +45,7 @@ enable-services:
 	gcloud --project $(PROJECT_ID) services enable cloudkms.googleapis.com
 	gcloud --project $(PROJECT_ID) services enable sqladmin.googleapis.com
 	gcloud --project $(PROJECT_ID) services enable servicenetworking.googleapis.com
+	gcloud --project $(PROJECT_ID) services enable iamcredentials.googleapis.com
 
 create-state-bucket:
 	gsutil mb -p $(PROJECT_ID) -c NEARLINE -l eu -b on gs://terraform-gcloud-state
