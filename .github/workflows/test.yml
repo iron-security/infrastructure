@@ -28,11 +28,10 @@ jobs:
       uses: google-github-actions/auth@v0.3.0
       id: gcloud_auth
       with:
+        token_format: access_token
         access_token_lifetime: 900s
         workload_identity_provider: projects/ironsecurity/locations/global/workloadIdentityPools/main-pool/providers/github
         service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
-        create_credentials_file: true
-        activate_credentials_file: false
     -
       uses: 'google-github-actions/setup-gcloud@v0.2.1'
       with:

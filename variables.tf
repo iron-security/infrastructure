@@ -4,6 +4,10 @@ variable "cf_email" {}
 # cloudflare api key
 variable "cf_api_key" {}
 
+variable "gcp_access_token" {
+  default = ""
+}
+
 # cloudflare account id
 variable "cf_account_id" {
   default = "cc3c0a0320f6300a87a710edf2731e79"

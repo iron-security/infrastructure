@@ -2,8 +2,9 @@ terraform {
   required_version = ">= v1.0.6"
 
   backend "gcs" {
-    bucket = "ironsecurity-terraform-state"
-    prefix = "terraform/state"
+    bucket       = "ironsecurity-terraform-state"
+    prefix       = "terraform/state"
+    access_token = var.gcp_access_token
   }
 
   required_providers {
