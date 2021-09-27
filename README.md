@@ -26,6 +26,9 @@ For Google Cloud, we rely on identity federation by using the [Google Auth GitHu
 # now initialize, create the S3 bucket we will store our terraform state in and create the terraform service account to be used
 % make init enable-services create-state-bucket create-terraform-account
 
+# for local development, a terraform-sa.json credential will be stored on your local filesystem
+# in your CI/CD, we rely on the Google Auth GitHub Action identity federation
+
 # and now we can finally bring up our infrastructure!
 % make init validate plan apply
 ```
