@@ -32,6 +32,8 @@ jobs:
         service_account: ${{ env.TERRAFORM_SA }}
         create_credentials_file: true
         activate_credentials_file: true
+      env:
+        GCLOUD_PROJECT: ironsecurity
     -
       name: Terraform Init
       run: terraform init
