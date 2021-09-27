@@ -3,10 +3,10 @@ on: [pull_request]
 
 env:
   TF_LOG: INFO
-  TERRAFORM_SA: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
   TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
   TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
   TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
+  GCLOUD_PROJECT: ironsecurity
 
 jobs:
   test:
@@ -29,11 +29,9 @@ jobs:
       with:
         access_token_lifetime: 900s
         workload_identity_provider: projects/ironsecurity/locations/global/workloadIdentityPools/main-pool/providers/github
-        service_account: ${{ env.TERRAFORM_SA }}
+        service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
         create_credentials_file: true
         activate_credentials_file: true
-      env:
-        GCLOUD_PROJECT: ironsecurity
     -
       name: Terraform Init
       run: terraform init
