@@ -24,6 +24,9 @@ jobs:
       name: Terraform fmt
       run: terraform fmt -check=true
     -
+      uses: google-github-actions/setup-gcloud@v0.2.1
+    -
+      id: gcloud_auth
       name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v0.3.0
       with:
@@ -32,6 +35,9 @@ jobs:
         service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
         create_credentials_file: true
         activate_credentials_file: true
+    - 
+      name: 'gcloud'
+      run: gcloud auth login --brief --cred-file="${{ steps.gcloud_auth.outputs.credentials_file_path }}"
     -
       name: Terraform Init
       run: terraform init
