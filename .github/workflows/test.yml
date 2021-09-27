@@ -24,24 +24,25 @@ jobs:
       name: Terraform fmt
       run: terraform fmt -check=true
     -
-      uses: google-github-actions/setup-gcloud@v0.2.1
-    -
       name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v0.3.0
+      id: gcloud_auth
       with:
+        token_format: access_token
+        id_token_audience: 'https://myapp-uvehjacqzq.a.run.app'
         access_token_lifetime: 900s
         workload_identity_provider: projects/ironsecurity/locations/global/workloadIdentityPools/main-pool/providers/github
         service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
         create_credentials_file: true
-        activate_credentials_file: true
+        activate_credentials_file: false
     -
-      uses: 'google-github-actions/setup-gcloud@master'
+      uses: 'google-github-actions/setup-gcloud@v0.2.1'
       with:
         project_id: ${{ env.GCLOUD_PROJECT }}
     -
       name: 'gcloud login'
       run: |-
-        gcloud auth login --brief --cred-file="$GOOGLE_APPLICATION_CREDENTIALS"
+        gcloud auth login --brief --cred-file="${{ steps.gcloud_auth.outputs.credentials_file_path }}"
     -
       name: Terraform Init
       run: terraform init
