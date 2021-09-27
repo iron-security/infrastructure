@@ -4,7 +4,6 @@ terraform {
   backend "gcs" {
     bucket = "ironsecurity-terraform-state"
     prefix = "terraform/state"
-    #access_token = env.GCP_TOKEN
   }
 
   required_providers {

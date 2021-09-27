@@ -44,8 +44,6 @@ jobs:
     -
       name: Terraform Init
       run: terraform init
-      env:
-        GCP_TOKEN: ${{ steps.gcloud_auth.outputs.access_token }}
     -
       name: Terraform Validate
       run: terraform validate -no-color
