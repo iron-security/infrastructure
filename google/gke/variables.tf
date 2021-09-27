@@ -19,7 +19,7 @@ variable "nat_egress_address_id" {}
 
 # release channel of kubernetes
 variable "k8s_release_channel" {
-  default = "STABLE"
+  default = "RAPID"
 }
 
 # minimum version of kubernetes to require
