@@ -18,14 +18,13 @@ jobs:
       name: Test with Checkov
       uses: bridgecrewio/checkov-action@v12.641.0
       with:
-        framework: terraform 
         quiet: true
   
   trivy:
 
     name: trivy
     runs-on: ubuntu-latest
-    
+
     steps:
     -
       uses: actions/checkout@v2
