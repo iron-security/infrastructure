@@ -9,12 +9,16 @@ env:
   GCLOUD_PROJECT: ironsecurity
 
 jobs:
+
   test:
-    permissions:
-      contents: read
-      id-token: 'write'
+
     name: terraform
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
     steps: 
     -
       uses: actions/checkout@v2
@@ -46,4 +50,3 @@ jobs:
       name: Cleanup
       if: always()
       run: rm "${GOOGLE_APPLICATION_CREDENTIALS}" || true
-

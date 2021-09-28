@@ -2,9 +2,12 @@ name: scan
 on: [pull_request]
 
 jobs:
+
   checkov:
+
     name: checkov
     runs-on: ubuntu-latest
+
     steps:
     -
       uses: actions/checkout@v2
@@ -19,8 +22,10 @@ jobs:
         quiet: true
   
   trivy:
+
     name: trivy
     runs-on: ubuntu-latest
+    
     steps:
     -
       uses: actions/checkout@v2
