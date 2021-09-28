@@ -1,6 +1,6 @@
 resource "github_team" "development" {
   name    = "Development"
-  privacy = "closed"
+  privacy = "secret"
 }
 
 resource "github_team_repository" "development_iron_security" {
