@@ -1,6 +1,6 @@
 resource "google_container_node_pool" "main_preemptible_nodes" {
-  name       = "gke-${var.cluster_name}-preempt-nodepool"
-  cluster    = google_container_cluster.main_cluster.id
+  name    = "gke-${var.cluster_name}-preempt-nodepool"
+  cluster = google_container_cluster.main_cluster.id
 
   node_config {
     preemptible  = true

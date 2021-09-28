@@ -13,7 +13,7 @@ resource "google_container_cluster" "main_cluster" {
   }
 
   min_master_version = var.k8s_min_version
-  
+
   release_channel {
     channel = var.k8s_release_channel
   }
@@ -24,6 +24,10 @@ resource "google_container_cluster" "main_cluster" {
 
   workload_identity_config {
     identity_namespace = "${var.project_id}.svc.id.goog"
+  }
+
+  authenticator_groups_config {
+    security_group = "gke-security-groups@${var.acl_group_domain}"
   }
 
   network_policy {
@@ -47,9 +51,6 @@ resource "google_container_cluster" "main_cluster" {
     # some IP subnet for master nodes
     master_ipv4_cidr_block = "10.20.0.0/28"
   }
-
-  # TODO: use google groups for IAM
-  # checkov:skip=CKV_GCP_65
 
   # TODO: enable Binary Authorization
   # https://github.com/CircleCI-Public/gcp-binary-authorization-orb

@@ -3,7 +3,7 @@ TERRAFORM_DIR="."
 TERRAFORM_VARFILE="settings.tfvars"
 TERRAFORM_AUTH="terraform-sa.json"
 
-all: validate plan
+all: fmt validate plan
 
 setup:
 	echo "Installing Google Cloud SDK"
@@ -103,3 +103,6 @@ refresh:
 	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) refresh
+
+fmt:
+	terraform fmt -recursive

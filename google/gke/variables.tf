@@ -22,6 +22,11 @@ variable "k8s_release_channel" {
   default = "RAPID"
 }
 
+# the domain to be used for the GKE google group that receives permissions for GKE usage
+variable "acl_group_domain" {
+  default = "ironpeak.be"
+}
+
 # minimum version of kubernetes to require
 # see https://docs.bridgecrew.io/docs/ensure-legacy-compute-engine-instance-metadata-apis-are-disabled
 variable "k8s_min_version" {
