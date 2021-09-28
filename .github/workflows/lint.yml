@@ -44,4 +44,3 @@ jobs:
       name: Cleanup
       if: always()
       run: rm "${GOOGLE_APPLICATION_CREDENTIALS}" || true
-    

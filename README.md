@@ -2,12 +2,6 @@
 
 This repository contains the [Terraform](https://www.terraform.io/) configuration that steers the infrastructure that is used to run the IRON platform.
 
-## Authentication
-
-For [Cloudflare](https://cloudflare.com/) and [GitHub](https://github.com/), we rely on scoped authentication tokens as a GitHub Action secret.
-
-For Google Cloud, we rely on identity federation by using the [Google Auth GitHub Action](https://github.com/google-github-actions/auth#setup) which scopes a Google Cloud service account to this repository nicely.
-
 ## Usage
 
 ```shell
@@ -40,3 +34,16 @@ For Google Cloud, we rely on identity federation by using the [Google Auth GitHu
 - `google/`: the configuration for our Google Cloud Platform resources, including GKE.
 - `kubernetes/`: the configuration for the basic resources on our Kubernetes cluster such as namespaces.
 - `helm/`: the configuration for our Helm deployments on the Kubernetes cluster.
+
+## RBAC
+
+We rely on the [Google Groups GKE RBAC](https://cloud.google.com/kubernetes-engine/docs/how-to/role-based-access-control) feature to re-use Google Workspace Groups to grant access to our Kubernetes cluster. This provides us with a single source of truth.
+
+## Authentication
+
+- Create a developer token in your [GitHub](https://github.com/) profile.
+- Create a scoped [Cloudflare](https://cloudflare.com/) API key in your Cloudflare account.
+- Setup the [Google Auth GitHub Action](https://github.com/google-github-actions/auth#setup) for GCP identity federation for CI/CD.
+
+For Google Cloud, we rely on identity federation by using the  which scopes a Google Cloud service account to this repository nicely.
+Any authentication performed against any private workloads on GKE should be done over either IAP or Cloudflare Access.
