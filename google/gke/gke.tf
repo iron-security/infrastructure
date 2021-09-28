@@ -52,6 +52,10 @@ resource "google_container_cluster" "main_cluster" {
     master_ipv4_cidr_block = "10.20.0.0/28"
   }
 
+  # skip the node_config checkov checks since we define it in the GKE nodepool
+  # checkov:skip=CKV_GCP_69
+  # checkov:skip=CKV_GCP_67
+
   # TODO: enable Binary Authorization
   # https://github.com/CircleCI-Public/gcp-binary-authorization-orb
   # checkov:skip=CKV_GCP_66

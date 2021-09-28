@@ -42,7 +42,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         reporter: github-pr-review
-        fail-on-error: true
+        fail_on_error: true
     -
       name: Cleanup
       if: always()
