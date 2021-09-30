@@ -32,8 +32,8 @@ This repository contains the [Terraform](https://www.terraform.io/) configuratio
 - `cloudflare/`: the configuration for our Cloudflare DNS service.
 - `github/`: the configuration for our GitHub repositories, teams and memberships.
 - `google/`: the configuration for our Google Cloud Platform resources, including GKE.
-- `kubernetes/`: the configuration for the basic resources on our Kubernetes cluster such as namespaces.
-- `helm/`: the configuration for our Helm deployments on the Kubernetes cluster.
+- `kubernetes/`: the configuration for the administrative resources for our Kubernetes clusters such as namespaces.
+- `helm/`: the configuration for the actual workload Helm deployments on our Kubernetes clusters.
 
 ## RBAC
 
@@ -41,9 +41,24 @@ We rely on the [Google Groups GKE RBAC](https://cloud.google.com/kubernetes-engi
 
 ## Authentication
 
-- Create a developer token in your [GitHub](https://github.com/) profile.
-- Create a scoped [Cloudflare](https://cloudflare.com/) API key in your Cloudflare account.
-- Setup the [Google Auth GitHub Action](https://github.com/google-github-actions/auth#setup) for GCP identity federation for CI/CD.
+### GitHub
+
+Create a developer token in your [GitHub](https://github.com/) profile and set it as an export in `dev.env` or in GitHub Actions.
+
+### Cloudflare
+
+Create a scoped [Cloudflare](https://cloudflare.com/) API key in your Cloudflare account and set it as an export in `dev.env`  or in GitHub Actions.
+
+### Google Cloud
+
+Setup the [Google Auth GitHub Action](https://github.com/google-github-actions/auth#setup) for GCP identity federation for CI/CD.
+
+Local development access to Google Cloud is done through `gcloud`, so make sure you went through a `gcloud login` flow.
 
 For Google Cloud, we rely on identity federation by using the  which scopes a Google Cloud service account to this repository nicely.
 Any authentication performed against any private workloads on GKE should be done over either IAP or Cloudflare Access.
+
+### Kubernetes
+
+Access to the Kubernetes API is done over the `gcloud` command and the actual Kubernetes API is kept private.
+This allows us to re-use regular Google Cloud authentication & authorization for our Kubernetes cluster at all times.

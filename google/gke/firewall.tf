@@ -3,10 +3,8 @@ resource "google_compute_firewall" "gke_ingress_firewall" {
   network     = google_compute_network.gke_cluster_vpc.name
   description = "Main firewall that blocks all ingress traffic."
 
-  priority  = 1
+  priority  = 10
   direction = "INGRESS"
-
-  # allow {}
 
   deny {
     protocol = "all"
@@ -22,8 +20,9 @@ resource "google_compute_firewall" "gke_egress_firewall" {
   network     = google_compute_network.gke_cluster_vpc.name
   description = "Main firewall that allows specific egress traffic."
 
-  priority  = 1
+  priority  = 10
   direction = "EGRESS"
+
   allow {
     protocol = "all"
   }

@@ -73,7 +73,7 @@ resource "google_container_cluster" "main_cluster" {
 
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block = var.cluster_subnet
+      cidr_block = "0.0.0.0/0"
     }
   }
 

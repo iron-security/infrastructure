@@ -27,6 +27,11 @@ variable "gcloud_region" {
   default = "europe-west1"
 }
 
+# the full email address of the terraform service account
+variable "gcp_serviceaccount_email" {
+  default = "terraform-ci-cd@ironsecurity.iam.gserviceaccount.com"
+}
+
 # this indicates that we skip the helm/kubernetes providers and only run the google one
 # this fixes a nasty limitation of Terraform where you can't plan/apply on things that are
 # not known yet, like the kubernetes cluster credentials/hostname, resulting
