@@ -95,6 +95,11 @@ resource "google_container_cluster" "main_cluster" {
       disabled = false
     }
 
+    istio_config {
+      disabled = var.enable_istio == true ? false : true
+      auth     = "AUTH_MUTUAL_TLS"
+    }
+
     # node_locations
     # cloudrun_config
     # dns_cache_config

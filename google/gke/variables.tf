@@ -35,7 +35,7 @@ variable "k8s_min_version" {
 
 # minimum amount of nodes to run
 variable "gke_min_node_count" {
-  default = 0
+  default = 1
 }
 
 # maximum amount of nodes to run
@@ -46,4 +46,10 @@ variable "gke_max_node_count" {
 # machine type for the kubernetes worker nodes
 variable "node_machine_type" {
   default = "n1-standard-1"
+}
+
+# should we activate the built-in Istio support in GKE
+variable "enable_istio" {
+  type    = bool
+  default = true
 }
