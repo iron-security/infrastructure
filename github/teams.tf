@@ -14,3 +14,18 @@ resource "github_team_membership" "development_hazcod" {
   team_id  = github_team.development.id
   username = "hazcod"
 }
+
+#
+# ---
+#
+
+resource "github_team" "marketing" {
+  name    = "Marketing"
+  privacy = "secret"
+}
+
+resource "github_team_membership" "marketing_doomed5g" {
+  role     = "member"
+  team_id  = github_team.marketing.id
+  username = "Doomed5G"
+}

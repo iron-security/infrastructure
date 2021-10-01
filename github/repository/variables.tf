@@ -2,7 +2,9 @@ variable "name" {}
 
 variable "description" {}
 
-variable "team_id" {}
+variable "team_ids" {
+  type = list(number)
+}
 
 variable "branches" {
   type    = list(string)

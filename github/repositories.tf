@@ -3,7 +3,7 @@ module "repo_infrastructure" {
 
   name        = "infrastructure"
   description = "Terraform monorepo for our cloud infrastructure."
-  team_id     = github_team.development.id
+  team_ids    = [github_team.development.id]
   branches    = []
 }
 
@@ -12,7 +12,7 @@ module "repo_website" {
 
   name        = "website"
   description = "Hugo repository for the iron.security website."
-  team_id     = github_team.development.id
+  team_ids    = [github_team.development.id]
   branches    = []
 }
 
@@ -21,7 +21,7 @@ module "repo_platform" {
 
   name        = "platform"
   description = "Monorepo for our platform microservices."
-  team_id     = github_team.development.id
+  team_ids    = [github_team.development.id]
   #branches    = ["main", "dev", "helm"]
   branches = []
 }
@@ -31,7 +31,7 @@ module "repo_dotgithub" {
 
   name        = ".github"
   description = "README for the organisation GitHub page."
-  team_id     = github_team.development.id
+  team_ids    = [github_team.development.id]
   #branches    = ["main"]
   branches = []
   topics   = ["readme", "github"]
