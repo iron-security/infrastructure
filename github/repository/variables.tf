@@ -3,7 +3,7 @@ variable "name" {}
 variable "description" {}
 
 variable "team_ids" {
-  type = list(number)
+  type = list(string)
 }
 
 variable "branches" {

@@ -12,7 +12,7 @@ module "repo_website" {
 
   name        = "website"
   description = "Hugo repository for the iron.security website."
-  team_ids    = [github_team.development.id]
+  team_ids    = [github_team.development.id, github_team.marketing.id]
   branches    = []
 }
 
@@ -31,7 +31,7 @@ module "repo_dotgithub" {
 
   name        = ".github"
   description = "README for the organisation GitHub page."
-  team_ids    = [github_team.development.id]
+  team_ids    = [github_team.development.id, github_team.marketing.id]
   #branches    = ["main"]
   branches = []
   topics   = ["readme", "github"]
