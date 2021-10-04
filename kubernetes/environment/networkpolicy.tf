@@ -1,12 +1,14 @@
 resource "kubernetes_network_policy" "deny_all_allow_egress" {
   metadata {
     name      = "deny-all-allow-egress"
-    namespace = kubernetes_namespace.platform_dev.metadata.0.name
+    namespace = kubernetes_namespace.namespace.metadata.0.name
   }
 
   spec {
+    # in and out-ward traffic
     policy_types = ["Ingress", "Egress"]
 
+    # apply to any Pod
     pod_selector {
       match_labels = {}
     }
@@ -29,7 +31,8 @@ resource "kubernetes_network_policy" "deny_all_allow_egress" {
         protocol = "TCP"
       }
 
-      # allow to any external endpoint since we don't know the crowdstrike IPs
+      # allow to any external endpoint
+      # TODO: investigate Pod DNS filtering in GKE clusters
       to {
         ip_block {
           cidr = "0.0.0.0/0"

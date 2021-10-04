@@ -84,20 +84,13 @@ apply:
 		-lock=false \
 		-input=false
 
+TARGET="foo"
 destroy:
 	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) destroy \
-		-input=false
-
-destroy-helm:
-	@if [ -f dev.env ]; then source dev.env; fi; \
-	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	terraform -chdir=$(TERRAFORM_DIR) destroy \
 		-input=false \
-		-target=helm_release.dev_worker \
-		-target=helm_release.dev_proxy \
-		-target=helm_release.dev_web
+		-target=$(TARGET) -auto-approve
 
 refresh:
 	@if [ -f dev.env ]; then source dev.env; fi; \
