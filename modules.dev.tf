@@ -35,7 +35,6 @@ module "kubernetes_dev" {
   project_id         = var.gcp_project_id
 }
 
-/*
 module "helm_dev" {
   depends_on = [module.google, module.kubernetes_dev]
 
@@ -50,4 +49,3 @@ module "helm_dev" {
 
   github_token = var.github_token
 }
-*/

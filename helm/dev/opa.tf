@@ -4,7 +4,7 @@ resource "helm_release" "opa_dev" {
 
   repository = "https://open-policy-agent.github.io/gatekeeper/charts"
   chart      = "gatekeeper/gatekeeper"
-  version    = "3.7.0-beta.1"
+  version    = "3.6.0"
 
   set {
     name  = "replicaCount"

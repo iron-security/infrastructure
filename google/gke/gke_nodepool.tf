@@ -7,9 +7,12 @@ resource "google_container_node_pool" "main_preemptible_nodes" {
     machine_type = var.node_machine_type
     image_type   = "cos_containerd"
 
+    // TODO: investigate Pod taints when gvisor is enabled
+    /*
     sandbox_config {
-      sandbox_type = "gvisor"
+      sandbox_type = var.node_sandbox_type
     }
+    */
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.node_default.email
