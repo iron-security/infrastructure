@@ -27,8 +27,6 @@ resource "google_compute_firewall" "gke_egress_firewall" {
     protocol = "all"
   }
 
-  # deny {}
-
   log_config {
     metadata = "INCLUDE_ALL_METADATA"
   }
