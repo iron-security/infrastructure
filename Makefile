@@ -33,7 +33,8 @@ set-terraform-permissions:
 		--role roles/container.admin \
 		--role roles/cloudkms.admin \
 		--role roles/iam.securityAdmin \
-		--role roles/servicenetworking.networksAdmin
+		--role roles/servicenetworking.networksAdmin \
+		--role roles/orgpolicy.policyAdmin
 
 enable-services:
 	gcloud --project $(PROJECT_ID) services enable cloudresourcemanager.googleapis.com

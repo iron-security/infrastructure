@@ -1,6 +1,6 @@
-resource "kubernetes_cluster_role_binding" "admin_group" {
+resource "kubernetes_cluster_role_binding" "admins_group" {
   metadata {
-    name = "admin-group"
+    name = "admins-group"
   }
 
   role_ref {
