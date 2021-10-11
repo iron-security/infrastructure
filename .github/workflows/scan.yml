@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-python@v2
     -
       name: Test with Checkov
-      uses: bridgecrewio/checkov-action@v12.932.0
+      uses: bridgecrewio/checkov-action@v12.937.0
       with:
         quiet: true
   
