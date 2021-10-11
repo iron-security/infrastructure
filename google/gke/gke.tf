@@ -84,6 +84,18 @@ resource "google_container_cluster" "main_cluster" {
     }
   }
 
+  # use stackdriver GKE for system and workload logs
+  logging_service = "logging.googleapis.com/kubernetes"
+  logging_config {
+    enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS"]
+  }
+
+  # use stackdriver GKE for system monitoring
+  monitoring_service = "monitoring.googleapis.com/kubernetes"
+  monitoring_config {
+    enable_components = ["SYSTEM_COMPONENTS"]
+  }
+
   # kubernetes addons
   addons_config {
     # accelerate dns caching on nodes locally
@@ -150,9 +162,11 @@ resource "google_service_account" "node_default" {
   account_id   = "gke-${var.cluster_name}-node-default-sa"
   display_name = "Default serviceaccount for GKE nodes."
 }
+
 resource "google_service_account_key" "node_default_key" {
   service_account_id = google_service_account.node_default.name
 }
+
 resource "google_project_service_identity" "gke_sa" {
   project = var.project_id
   service = "container.googleapis.com"

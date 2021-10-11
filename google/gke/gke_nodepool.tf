@@ -1,6 +1,8 @@
-resource "google_container_node_pool" "main_preemptible_nodes" {
+resource "google_container_node_pool" "system_preemptible_nodes" {
   name    = "gke-${var.cluster_name}-preempt-nodepool"
   cluster = google_container_cluster.main_cluster.id
+
+  node_count = var.gke_min_node_count
 
   node_config {
     preemptible  = true
@@ -10,7 +12,7 @@ resource "google_container_node_pool" "main_preemptible_nodes" {
     // TODO: investigate Pod taints when gvisor is enabled
     /*
     sandbox_config {
-      sandbox_type = var.node_sandbox_type
+      sandbox_type = "gvisor"
     }
     */
 
