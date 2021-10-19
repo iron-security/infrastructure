@@ -7,3 +7,8 @@ resource "github_membership" "hazcod" {
   role     = "admin"
   username = "hazcod"
 }
+
+resource "github_membership" "Doomed5G" {
+  role     = "member"
+  username = "Doomed5G"
+}

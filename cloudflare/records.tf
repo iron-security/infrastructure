@@ -32,6 +32,25 @@ resource "cloudflare_record" "www_ironsecurity_cname6" {
   proxied = true
 }
 
+# docs records
+
+resource "cloudflare_record" "ironsecuritydocs_cname" {
+  zone_id = var.zone_iron_security
+  name    = "docs.iron.security"
+  type    = "A"
+  value   = "192.0.2.1"
+  proxied = true
+}
+
+
+resource "cloudflare_record" "ironsecuritydocs_cname6" {
+  zone_id = var.zone_iron_security
+  name    = "docs.iron.security"
+  type    = "AAAA"
+  value   = "100::"
+  proxied = true
+}
+
 # verification records
 resource "cloudflare_record" "github_challenge" {
   zone_id = var.zone_iron_security

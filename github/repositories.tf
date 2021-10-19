@@ -37,3 +37,26 @@ module "repo_dotgithub" {
   topics   = ["readme", "github"]
   public   = true
 }
+
+module "repo_documentation" {
+  source = "./repository"
+
+  name        = "documentation"
+  description = "The IRON documentation website to share information."
+  team_ids    = [github_team.development.id, github_team.marketing.id]
+  #branches    = ["main"]
+  branches = []
+  topics   = ["docs", "documentation"]
+  public   = false
+}
+
+module "repo_falconinstall" {
+  source = "./repository"
+
+  name        = "falconinstall"
+  description = "Helper scripts to install the Falcon sensors to your fleet manually."
+  team_ids    = [github_team.development.id]
+  branches    = []
+  topics      = ["docs", "falcon", "script", "install"]
+  public      = false
+}

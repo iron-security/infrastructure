@@ -14,14 +14,14 @@ terraform {
 
     github = {
       source  = "hashicorp/github"
-      version = ">= 4.15.1"
+      version = ">= 4.17.0"
     }
 
     # TODO: remove google-beta in favour of google when they merge 'google_project_service_identity' and 'logging_config' in GKE
     # this will need to be removed from every providers.tf file
     google = {
       source  = "hashicorp/google-beta"
-      version = ">= 3.87.0"
+      version = ">= 3.88.0"
     }
 
     kubernetes = {

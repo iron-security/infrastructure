@@ -1,4 +1,10 @@
 resource "github_repository" "repo" {
+  # do not automatically destroy repositories so we don't lose the git contents
+  lifecycle {
+    prevent_destroy = true
+  }
+
+  allow_auto_merge       = var.allow_auto_merge
   allow_merge_commit     = "true"
   allow_rebase_merge     = "true"
   allow_squash_merge     = "true"
