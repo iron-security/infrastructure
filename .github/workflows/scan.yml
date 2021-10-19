@@ -8,6 +8,9 @@ jobs:
     name: checkov
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
     -
       uses: actions/checkout@v2
@@ -16,7 +19,7 @@ jobs:
       uses: actions/setup-python@v2
     -
       name: Test with Checkov
-      uses: bridgecrewio/checkov-action@v12.949.0
+      uses: bridgecrewio/checkov-action@master
       with:
         quiet: true
   
@@ -24,6 +27,10 @@ jobs:
 
     name: trivy
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      
 
     steps:
     -
