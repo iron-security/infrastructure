@@ -152,7 +152,11 @@ resource "google_project_organization_policy" "disable_vm_public_ips" {
 resource "google_project_organization_policy" "disallow_iam_external_domains" {
   project    = var.project_id
   constraint = "constraints/iam.allowedPolicyMemberDomains"
-  boolean_policy {
-    enforced = true
+  list_policy {
+    allow {
+      values = [
+        var.gcloud_customer_id,
+      ]
+    }
   }
 }

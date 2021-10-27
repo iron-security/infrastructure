@@ -21,7 +21,7 @@ terraform {
     # this will need to be removed from every providers.tf file
     google = {
       source  = "hashicorp/google-beta"
-      version = ">= 3.88.0"
+      version = ">= 3.89.0"
     }
 
     kubernetes = {

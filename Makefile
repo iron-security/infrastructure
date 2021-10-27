@@ -83,7 +83,7 @@ apply:
 	terraform -chdir=$(TERRAFORM_DIR) apply \
 		-auto-approve \
 		-lock=false \
-		-input=false
+		-input=false -target=module.google
 
 TARGET="foo"
 destroy:

@@ -23,6 +23,18 @@ resource "google_container_cluster" "main_cluster" {
   initial_node_count       = 1
   remove_default_node_pool = true
 
+  # to comply with our shielded VM policy in the temporary GKE nodepool setup during start
+  # we need to supply the node_config here with shielded_instance_config
+  node_config {
+    metadata = {
+      "disable-legacy-endpoints" = "true"
+    }
+    shielded_instance_config {
+      enable_integrity_monitoring = true
+      enable_secure_boot          = true
+    }
+  }
+
   # GKE shielded nodes for kubelet authentication
   enable_shielded_nodes = true
 
@@ -86,15 +98,15 @@ resource "google_container_cluster" "main_cluster" {
 
   # use stackdriver GKE for system and workload logs
   logging_service = "logging.googleapis.com/kubernetes"
-  logging_config {
+  /*logging_config {
     enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS"]
-  }
+  }*/
 
   # use stackdriver GKE for system monitoring
   monitoring_service = "monitoring.googleapis.com/kubernetes"
-  monitoring_config {
+  /*monitoring_config {
     enable_components = ["SYSTEM_COMPONENTS"]
-  }
+  }*/
 
   # kubernetes addons
   addons_config {
@@ -114,10 +126,12 @@ resource "google_container_cluster" "main_cluster" {
     }
 
     # enable istio service mesh
+    /*
     istio_config {
       disabled = var.enable_istio == true ? false : true
       auth     = "AUTH_MUTUAL_TLS"
     }
+    */
 
     # node_locations
     # cloudrun_config

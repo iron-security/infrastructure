@@ -119,3 +119,11 @@ resource "cloudflare_record" "mx_ironsecurity_0" {
   type     = "MX"
   value    = "aspmx.l.google.com"
 }
+
+resource "cloudflare_record" "a_statusironsecurity" {
+  zone_id = var.zone_iron_security
+  name    = "status.iron.security"
+  type    = "A"
+  value   = "124.1.2.1"
+  proxied = true
+}
