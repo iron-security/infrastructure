@@ -37,7 +37,7 @@ jobs:
       uses: actions/checkout@v2
     -
       name: Run Trivy vulnerability scanner in IaC mode
-      uses: aquasecurity/trivy-action@0.0.22
+      uses: aquasecurity/trivy-action@0.1.0
       with:
         scan-type: 'config'
         hide-progress: false
