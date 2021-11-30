@@ -29,7 +29,7 @@ jobs:
       run: terraform fmt -check=true
     -
       name: Authenticate to Google Cloud
-      uses: google-github-actions/auth@v0.4.0
+      uses: google-github-actions/auth@v0.4.1
       with:
         access_token_lifetime: 900s
         workload_identity_provider: projects/1049058775616/locations/global/workloadIdentityPools/main-pool/providers/github-sa-provider
