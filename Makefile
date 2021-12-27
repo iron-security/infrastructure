@@ -65,6 +65,8 @@ init:
 	terraform -chdir=$(TERRAFORM_DIR) init \
 		-upgrade \
 		-reconfigure
+	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
+	terraform -chdir=$(TERRAFORM_DIR) get -update
 
 validate:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
