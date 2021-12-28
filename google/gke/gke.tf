@@ -1,4 +1,8 @@
-resource "google_container_cluster" "main_cluster" {
+locals {
+  gke_master_cidr = "10.20.0.0/28"
+}
+
+resource "google_container_cluster" "gke_cluster" {
   # we need KMS for etcd encryption
   depends_on = [
     google_kms_key_ring.k8s_key_ring,
@@ -19,21 +23,11 @@ resource "google_container_cluster" "main_cluster" {
     channel = var.k8s_release_channel
   }
 
-  # make sure we use our custom node pool
-  initial_node_count       = 1
+  # We can't create a cluster with no node pool defined, but we want to only use
+  # separately managed node pools. So we create the smallest possible default
+  # node pool and immediately delete it.
   remove_default_node_pool = true
-
-  # to comply with our shielded VM policy in the temporary GKE nodepool setup during start
-  # we need to supply the node_config here with shielded_instance_config
-  node_config {
-    metadata = {
-      "disable-legacy-endpoints" = "true"
-    }
-    shielded_instance_config {
-      enable_integrity_monitoring = true
-      enable_secure_boot          = true
-    }
-  }
+  initial_node_count = 1
 
   # GKE shielded nodes for kubelet authentication
   enable_shielded_nodes = true
@@ -45,7 +39,7 @@ resource "google_container_cluster" "main_cluster" {
 
   # enable workload protection
   workload_identity_config {
-    identity_namespace = "${var.project_id}.svc.id.goog"
+    workload_pool = "${var.project_id}.svc.id.goog"
   }
 
   # enable google groups authz
@@ -58,14 +52,48 @@ resource "google_container_cluster" "main_cluster" {
     enabled = true
   }
 
+  node_config {
+    # use spot VMs since these are cheaper with the downside of sudden node loss
+    preemptible  = false
+    spot         = var.allow_spot_nodes
+
+    # set the node type
+    machine_type = var.node_machine_type
+    image_type   = "cos_containerd"
+
+    # we don't want any Pods to be scheduled on the default node pool
+    # sine we're going to remove it anyway
+    taint {
+      key       = "temp/noschedule"
+      value     = "true"
+      effect    = "NO_EXECUTE"
+    }
+
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    service_account = google_service_account.gke_node_sa.email
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+
+    # use native Gke metadata server for workload identity
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
+
+    shielded_instance_config {
+      enable_integrity_monitoring = true
+      enable_secure_boot          = true
+    }
+  }
+
   # make this a private GKE cluster
   private_cluster_config {
     # GKE nodes should be private so only LBs can be used to reach services
     enable_private_nodes = true
-    # we still want to reach the GKE API server for kubectl
+    # set to true if we only want to allow the private API endpoint
     enable_private_endpoint = false
     # some IP subnet for master nodes
-    master_ipv4_cidr_block = "10.20.0.0/28"
+    master_ipv4_cidr_block = local.gke_master_cidr
   }
 
   # skip the node_config checkov checks since we define it in the GKE nodepool
@@ -79,34 +107,28 @@ resource "google_container_cluster" "main_cluster" {
 
   # disable basic authentication
   master_auth {
-    # disable basic auth for security reasons
-    username = ""
-    password = ""
-
-    # but allow certificate-based authentication
+    # use certificate-based authentication 
     client_certificate_config {
-      issue_client_certificate = true
+      issue_client_certificate = false
     }
   }
 
   # allow API auth from anywhere
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block = "0.0.0.0/0"
+      cidr_block = local.gke_master_cidr
     }
   }
 
   # use stackdriver GKE for system and workload logs
-  logging_service = "logging.googleapis.com/kubernetes"
-  /*logging_config {
+  logging_config {
     enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS"]
-  }*/
+  }
 
-  # use stackdriver GKE for system monitoring
-  monitoring_service = "monitoring.googleapis.com/kubernetes"
-  /*monitoring_config {
-    enable_components = ["SYSTEM_COMPONENTS"]
-  }*/
+  # use stackdriver GKE native system monitoring for everything
+  monitoring_config {
+    enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS"]
+  }
 
   # kubernetes addons
   addons_config {
@@ -170,21 +192,21 @@ resource "google_container_cluster" "main_cluster" {
     state    = "ENCRYPTED"
     key_name = google_kms_crypto_key.k8s_etcd_kms_key.id
   }
+
+  # do not update this resource when this changes
+  lifecycle {
+    ignore_changes = [node_config, node_pool, initial_node_count]
+  }
+
+  timeouts {
+    create = "15m"
+    update = "30m"
+    delete = "30m"
+  }
 }
 
-resource "google_service_account" "node_default" {
-  account_id   = "gke-${var.cluster_name}-node-default-sa"
-  display_name = "Default serviceaccount for GKE nodes."
-}
-
-resource "google_service_account_key" "node_default_key" {
-  service_account_id = google_service_account.node_default.name
-}
-
-resource "google_project_service_identity" "gke_sa" {
-  project = var.project_id
-  service = "container.googleapis.com"
-}
+# retrieve the numeric gcp project identifier
+data "google_project" "project" {}
 
 # make sure our GKE service account has access to KMS for etcd encryption
 data "google_iam_policy" "gke_kms" {
@@ -192,7 +214,7 @@ data "google_iam_policy" "gke_kms" {
     role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
 
     members = [
-      "serviceAccount:${google_project_service_identity.gke_sa.email}",
+      "serviceAccount:service-${data.google_project.project.number}@container-engine-robot.iam.gserviceaccount.com",
     ]
   }
 }

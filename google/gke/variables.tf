@@ -53,3 +53,9 @@ variable "enable_istio" {
   type    = bool
   default = true
 }
+
+# should we allow node Spot VMs which can be killed any time
+variable "allow_spot_nodes" {
+  type = bool
+  default = true
+}

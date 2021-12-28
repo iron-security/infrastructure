@@ -85,7 +85,8 @@ apply:
 	terraform -chdir=$(TERRAFORM_DIR) apply \
 		-auto-approve \
 		-lock=false \
-		-input=false -target=module.google
+		-input=false \
+		-var="skip_kubernetes_deploy=false"
 
 TARGET="foo"
 destroy:

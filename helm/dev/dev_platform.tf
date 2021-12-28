@@ -13,7 +13,7 @@ module "dev_platform_identity" {
 resource "google_sql_user" {
 
 }
-*/
+
 
 resource "helm_release" "platform_dev" {
   name      = local.dev_platform_name
@@ -34,3 +34,4 @@ resource "helm_release" "platform_dev" {
     value = "debug"
   }
 }
+*/

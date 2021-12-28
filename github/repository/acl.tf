@@ -1,7 +1,11 @@
+locals {
+  att_004 = join("_", var.team_ids[*])
+}
+
 resource "github_team_repository" "repo_team" {
-  for_each = toset(var.team_ids)
+  count = length(var.team_ids)
 
   permission = "push"
   repository = github_repository.repo.name
-  team_id    = each.key
+  team_id    = split("_", local.att_004)[count.index]
 }

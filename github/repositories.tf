@@ -5,6 +5,7 @@ module "repo_infrastructure" {
   description = "Terraform monorepo for our cloud infrastructure."
   team_ids    = [github_team.development.id]
   branches    = []
+  public      = false
 }
 
 module "repo_website" {
@@ -14,6 +15,7 @@ module "repo_website" {
   description = "Hugo repository for the iron.security website."
   team_ids    = [github_team.development.id, github_team.marketing.id]
   branches    = []
+  public      = true
 }
 
 module "repo_platform" {
@@ -24,6 +26,7 @@ module "repo_platform" {
   team_ids    = [github_team.development.id]
   #branches    = ["main", "dev", "helm"]
   branches = []
+  public   = false
 }
 
 module "repo_dotgithub" {
@@ -47,7 +50,7 @@ module "repo_documentation" {
   #branches    = ["main"]
   branches = []
   topics   = ["docs", "documentation"]
-  public   = false
+  public   = true
 }
 
 module "repo_falconinstall" {

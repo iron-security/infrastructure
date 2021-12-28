@@ -30,7 +30,6 @@ jobs:
 
     permissions:
       contents: read
-      
 
     steps:
     -

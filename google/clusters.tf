@@ -9,7 +9,7 @@ module "dev_cluster" {
   cluster_subnet        = "10.10.0.0/16"
   nat_egress_address_id = google_compute_address.nat_egress_address.id
   gke_min_node_count    = 1
-  gke_max_node_count    = 4
+  gke_max_node_count    = 3
 }
 
 // our GKE prod cluster with multi-zone/regional preemtible nodes

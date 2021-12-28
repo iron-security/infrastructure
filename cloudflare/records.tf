@@ -7,7 +7,6 @@ resource "cloudflare_record" "ironsecurity_cname" {
   proxied = true
 }
 
-
 resource "cloudflare_record" "ironsecurity_cname6" {
   zone_id = var.zone_iron_security
   name    = "iron.security"
@@ -120,10 +119,50 @@ resource "cloudflare_record" "mx_ironsecurity_0" {
   value    = "aspmx.l.google.com"
 }
 
-resource "cloudflare_record" "a_statusironsecurity" {
+resource "cloudflare_record" "a_statusironsecurity_cname" {
   zone_id = var.zone_iron_security
   name    = "status.iron.security"
   type    = "A"
-  value   = "124.1.2.1"
+  value   = "192.0.2.1"
+  proxied = true
+}
+
+resource "cloudflare_record" "a_statusironsecurity_cname6" {
+  zone_id = var.zone_iron_security
+  name    = "status.iron.security"
+  type    = "AAAA"
+  value   = "100::"
+  proxied = true
+}
+
+resource "cloudflare_record" "a_appironsecurity_cname" {
+  zone_id = var.zone_iron_security
+  name    = "app.iron.security"
+  type    = "A"
+  value   = "192.0.2.1"
+  proxied = true
+}
+
+resource "cloudflare_record" "a_appironsecurity_cname6" {
+  zone_id = var.zone_iron_security
+  name    = "app.iron.security"
+  type    = "AAAA"
+  value   = "100::"
+  proxied = true
+}
+
+resource "cloudflare_record" "a_apiironsecurity_cname" {
+  zone_id = var.zone_iron_security
+  name    = "api.iron.security"
+  type    = "A"
+  value   = "192.0.2.1"
+  proxied = true
+}
+
+resource "cloudflare_record" "a_apiironsecurity_cname6" {
+  zone_id = var.zone_iron_security
+  name    = "api.iron.security"
+  type    = "AAAA"
+  value   = "100::"
   proxied = true
 }

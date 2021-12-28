@@ -37,5 +37,5 @@ variable "gcp_serviceaccount_email" {
 # not known yet, like the kubernetes cluster credentials/hostname, resulting
 # in errors like "Error: Get "http://localhost/api/v1/namespaces": dial tcp [::1]:80: connect: connection refused"
 variable "skip_kubernetes_deploy" {
-  default = true
+  default = false
 }

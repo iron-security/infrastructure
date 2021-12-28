@@ -13,8 +13,8 @@ terraform {
     }
 
     github = {
-      source  = "hashicorp/github"
-      version = ">= 4.17.0"
+      source  = "integrations/github"
+      version = ">= 4.19.0"
     }
 
     # TODO: remove google-beta in favour of google when they merge 'google_project_service_identity' and 'logging_config' in GKE
