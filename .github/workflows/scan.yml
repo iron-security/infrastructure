@@ -1,5 +1,12 @@
 name: scan
-on: [pull_request]
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+  - cron: '23 17 * * 3'
 
 jobs:
 
