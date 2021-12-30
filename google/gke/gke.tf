@@ -27,7 +27,7 @@ resource "google_container_cluster" "gke_cluster" {
   # separately managed node pools. So we create the smallest possible default
   # node pool and immediately delete it.
   remove_default_node_pool = true
-  initial_node_count = 1
+  initial_node_count       = 1
 
   # GKE shielded nodes for kubelet authentication
   enable_shielded_nodes = true
@@ -54,8 +54,8 @@ resource "google_container_cluster" "gke_cluster" {
 
   node_config {
     # use spot VMs since these are cheaper with the downside of sudden node loss
-    preemptible  = false
-    spot         = var.allow_spot_nodes
+    preemptible = false
+    spot        = var.allow_spot_nodes
 
     # set the node type
     machine_type = var.node_machine_type
@@ -64,9 +64,9 @@ resource "google_container_cluster" "gke_cluster" {
     # we don't want any Pods to be scheduled on the default node pool
     # sine we're going to remove it anyway
     taint {
-      key       = "temp/noschedule"
-      value     = "true"
-      effect    = "NO_EXECUTE"
+      key    = "temp/noschedule"
+      value  = "true"
+      effect = "NO_EXECUTE"
     }
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.

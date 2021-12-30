@@ -7,7 +7,7 @@ resource "google_compute_firewall" "gke_ingress_firewall" {
   priority  = 10
   direction = "INGRESS"
 
-  source_ranges = [ "0.0.0.0/0" ]
+  source_ranges = ["0.0.0.0/0"]
 
   deny {
     protocol = "all"
