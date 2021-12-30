@@ -1,5 +1,12 @@
 name: scan
-on: [pull_request]
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+  - cron: '23 17 * * 3'
 
 jobs:
 
@@ -10,6 +17,7 @@ jobs:
 
     permissions:
       contents: read
+      security-events: write
 
     steps:
     -
@@ -30,6 +38,7 @@ jobs:
 
     permissions:
       contents: read
+      security-events: write
 
     steps:
     -
@@ -38,11 +47,13 @@ jobs:
       name: Run Trivy vulnerability scanner in IaC mode
       uses: aquasecurity/trivy-action@0.2.0
       with:
-        scan-type: 'config'
         hide-progress: false
-        format: 'table'
         exit-code: '1'
         ignore-unfixed: true
+        scan-type: 'config'
+        format: 'template'
+        template: '@/contrib/sarif.tpl'
+        output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH,MEDIUM'
     -
       name: Upload Trivy scan results to GitHub Security tab

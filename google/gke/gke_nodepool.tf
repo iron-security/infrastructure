@@ -4,8 +4,8 @@ resource "google_container_node_pool" "system_preemptible_nodes" {
 
   node_config {
     # use spot VMs since these are cheaper with the downside of sudden node loss
-    preemptible  = false
-    spot         = var.allow_spot_nodes
+    preemptible = false
+    spot        = var.allow_spot_nodes
 
     # set the node type
     machine_type = var.node_machine_type

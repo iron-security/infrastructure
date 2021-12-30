@@ -86,7 +86,7 @@ apply:
 		-auto-approve \
 		-lock=false \
 		-input=false \
-		-var="skip_kubernetes_deploy=false"
+		-refresh=false
 
 TARGET="foo"
 destroy:
