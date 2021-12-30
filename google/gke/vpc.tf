@@ -1,7 +1,7 @@
 # VPC
 resource "google_compute_network" "gke_cluster_vpc" {
   project                 = var.project_id
-  name                    = "${var.cluster_name}-vpc"
+  name                    = "gke-${var.cluster_name}-vpc"
   auto_create_subnetworks = false
   #delete_default_routes_on_create = true
 }
@@ -9,7 +9,7 @@ resource "google_compute_network" "gke_cluster_vpc" {
 # Subnet
 resource "google_compute_subnetwork" "gke_cluster_subnet" {
   project                  = var.project_id
-  name                     = "${var.cluster_name}-subnet"
+  name                     = "gke-${var.cluster_name}-subnet"
   region                   = var.cluster_region
   network                  = google_compute_network.gke_cluster_vpc.name
   ip_cidr_range            = var.cluster_subnet

@@ -12,5 +12,5 @@ output "cluster_client_key" {
 }
 
 output "cluster_endpoint" {
-  value = google_container_cluster.gke_cluster.private_cluster_config.0.private_endpoint
+  value = google_container_cluster.gke_cluster.endpoint
 }

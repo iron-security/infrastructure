@@ -116,7 +116,7 @@ resource "google_container_cluster" "gke_cluster" {
   # allow API auth from anywhere
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block = local.gke_master_cidr
+      cidr_block = "0.0.0.0/0"
     }
   }
 
