@@ -7,7 +7,7 @@ all: fmt validate plan
 
 setup:
 	echo "Installing Google Cloud SDK"
-	brew install google-cloud-sdk
+	brew install google-cloud-sdk aquasecurity/trivy/trivy
 	echo 'source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"' >> $HOME/.zshrc
 	echo 'source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"' >> $HOME/.zshrc
 	echo "Logging into Google Cloud"
@@ -50,7 +50,6 @@ enable-services:
 
 create-state-bucket:
 	gsutil mb -p $(PROJECT_ID) -c NEARLINE -l eu -b on gs://terraform-gcloud-state
-		
 
 setup-helm:
 	GOOGLE_APPLICATION_CREDENTIALS="terraform-sa.json" \
@@ -59,6 +58,9 @@ setup-helm:
 update-helm:
 	GOOGLE_APPLICATION_CREDENTIALS="terraform-sa.json" \
 	helm repo update
+
+lint:
+	trivy config --format table --exit-code 2 --severity MEDIUM,HIGH,CRITICAL $(TERRAFORM_DIR) | less
 
 init:
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
