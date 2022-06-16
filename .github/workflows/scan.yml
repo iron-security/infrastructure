@@ -30,6 +30,13 @@ jobs:
       uses: bridgecrewio/checkov-action@master
       with:
         quiet: true
+    -
+      name: Upload Trivy scan results to GitHub Security tab
+      if: always()
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'results.sarif'
+    
   
   trivy:
 
