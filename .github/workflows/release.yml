@@ -38,7 +38,7 @@ jobs:
       with:
         args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -c main -e production
     -
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
     -
       name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v0.8.0
