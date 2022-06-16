@@ -71,7 +71,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s failed -u https://iron.security/ -f
+        args: -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -s failure -u https://iron.security/ -f
     -
       name: Cleanup
       if: always()
