@@ -33,7 +33,6 @@ jobs:
         workload_identity_provider: projects/1049058775616/locations/global/workloadIdentityPools/main-pool/providers/github
         service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
         create_credentials_file: true
-        activate_credentials_file: true
     -
       name: Terraform Init
       run: terraform init
