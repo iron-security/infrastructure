@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= v1.1.4"
+  required_version = ">= v1.2.3"
 
   backend "gcs" {
     bucket = "ironsecurity-terraform-state"

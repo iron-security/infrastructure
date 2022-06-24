@@ -11,7 +11,7 @@ resource "google_container_cluster" "gke_cluster" {
   ]
 
   project  = var.project_id
-  name     = var.cluster_name
+  name     = "${var.cluster_name}-cluster"
   location = var.cluster_location
 
   resource_labels = {
@@ -55,8 +55,9 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
   # use confidential nodes which have memory encryption
+  # disabled since it requires the N2D machine type 
   confidential_nodes {
-    enabled = true
+    enabled = false
   }
 
   node_config {
@@ -138,7 +139,11 @@ resource "google_container_cluster" "gke_cluster" {
 
   # use stackdriver GKE native system monitoring for everything
   monitoring_config {
-    enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS"]
+    enable_components = ["SYSTEM_COMPONENTS"]
+
+    managed_prometheus {
+      enabled = true
+    }
   }
 
   # kubernetes addons
