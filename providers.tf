@@ -43,7 +43,7 @@ provider "cloudflare" {
 
 provider "github" {
   token = var.github_token
-  owner = var.github_owner
+  organization = var.github_owner
 }
 
 provider "google" {
