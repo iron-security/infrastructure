@@ -6,6 +6,8 @@ resource "google_container_cluster" "gke_cluster" {
   # we need KMS for etcd encryption
   depends_on = [
     google_kms_key_ring.k8s_key_ring,
+    google_compute_firewall.gke_ingress_firewall,
+    google_compute_firewall.gke_egress_firewall,
   ]
 
   project  = var.project_id
@@ -146,14 +148,6 @@ resource "google_container_cluster" "gke_cluster" {
     http_load_balancing {
       disabled = false
     }
-
-    # enable istio service mesh
-    /*
-    istio_config {
-      disabled = var.enable_istio == true ? false : true
-      auth     = "AUTH_MUTUAL_TLS"
-    }
-    */
 
     # node_locations
     # cloudrun_config

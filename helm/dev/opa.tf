@@ -1,8 +1,8 @@
 resource "helm_release" "opa_dev" {
   name      = "gatekeeper"
-  namespace = "system-gatekeeper"
+  namespace = "gatekeeper-system"
 
-  repository = "https://open-policy-agent.github.io/gatekeeper/charts"
+  repository = "https://open-policy-agent.github.io/gatekeeper/charts/"
   chart      = "gatekeeper"
   version    = "3.7.0"
 

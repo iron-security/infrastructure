@@ -3,3 +3,5 @@
 **/*.tfstate*
 **/generated/
 dev.env
+**/.dccache
+**/.vscode

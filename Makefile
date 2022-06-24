@@ -83,18 +83,19 @@ plan:
 		
 apply:
 	@if [ -f dev.env ]; then source dev.env; fi; \
+	TF_LOG=DEBUG \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) apply \
 		-auto-approve \
 		-lock=false \
 		-input=false \
-		-refresh=false
+		-refresh=true -target=module.kubernetes
 
 TARGET="foo"
 destroy:
 	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
-	terraform -chdir=$(TERRAFORM_DIR) destroy \
+	terraform -chdir=$(TERRAFORM_DIR) apply -destroy \
 		-input=false \
 		-target=$(TARGET) -auto-approve
 
