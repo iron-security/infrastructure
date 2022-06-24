@@ -55,6 +55,8 @@ jobs:
       run: terraform validate -no-color
     -
       name: Terraform Apply
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: terraform apply -no-color -input=false -lock=true -auto-approve -input=false
     -
       name: set deployment status
