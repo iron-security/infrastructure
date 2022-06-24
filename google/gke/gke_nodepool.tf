@@ -62,7 +62,7 @@ resource "google_container_node_pool" "system_preemptible_nodes" {
 # default service account used by the GKE nodes
 # these don't have any permissions by default
 resource "google_service_account" "gke_node_sa" {
-  account_id   = "${var.cluster_name}-node-sa"
+  account_id   = "gke-${var.cluster_name}-node-sa"
   display_name = "Node service account for GKE cluster ${var.cluster_name}"
   project      = var.project_id
 }
