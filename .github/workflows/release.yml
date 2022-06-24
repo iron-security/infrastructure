@@ -17,12 +17,12 @@ jobs:
     name: terraform
     runs-on: ubuntu-latest
 
-   # permissions:
-   #   contents: write
-   #   id-token: write
-   #   deployments: write
-   #   packages: write
-   #   security-events: write
+    permissions:
+      contents: write
+      id-token: write
+      deployments: write
+      packages: write
+      security-events: write
 
     steps: 
     -
