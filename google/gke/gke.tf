@@ -54,6 +54,11 @@ resource "google_container_cluster" "gke_cluster" {
     enabled = true
   }
 
+  # use confidential nodes which have memory encryption
+  confidential_nodes {
+    enabled = true
+  }
+
   node_config {
     # use spot VMs since these are cheaper with the downside of sudden node loss
     preemptible = false
@@ -62,6 +67,10 @@ resource "google_container_cluster" "gke_cluster" {
     # set the node type
     machine_type = var.node_machine_type
     image_type   = "cos_containerd"
+
+    metadata = {
+      disable-legacy-endpoints = true
+    }
 
     # we don't want any Pods to be scheduled on the default node pool
     # sine we're going to remove it anyway

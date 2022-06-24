@@ -9,29 +9,29 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = ">= 3.1.0"
+      version = ">= 3.17.0"
     }
 
     github = {
       source  = "integrations/github"
-      version = ">= 4.19.0"
+      version = ">= 4.26.0"
     }
 
     # TODO: remove google-beta in favour of google when they merge 'google_project_service_identity' and 'logging_config' in GKE
     # this will need to be removed from every providers.tf file
     google = {
       source  = "hashicorp/google-beta"
-      version = ">= 3.89.0"
+      version = ">= 4.26.0"
     }
 
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.5.0"
+      version = ">= 2.11.0"
     }
 
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.3.0"
+      version = ">= 2.6.0"
     }
   }
 }
@@ -39,7 +39,6 @@ terraform {
 provider "cloudflare" {
   email      = var.cf_email
   api_key    = var.cf_api_key
-  account_id = var.cf_account_id
 }
 
 provider "github" {

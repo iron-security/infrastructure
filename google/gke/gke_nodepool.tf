@@ -11,6 +11,10 @@ resource "google_container_node_pool" "system_preemptible_nodes" {
     machine_type = var.node_machine_type
     image_type   = "cos_containerd"
 
+    metadata = {
+      disable-legacy-endpoints = true
+    }
+
     # enable gvisor kernel sandboxing
     sandbox_config {
       sandbox_type = "gvisor"
@@ -29,6 +33,7 @@ resource "google_container_node_pool" "system_preemptible_nodes" {
       mode = "GKE_METADATA"
     }
 
+    # use shielded nodes which verify integrity
     shielded_instance_config {
       enable_integrity_monitoring = true
       enable_secure_boot          = true
