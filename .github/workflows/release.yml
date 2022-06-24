@@ -9,6 +9,7 @@ env:
   TF_VAR_cf_email: ${{ secrets.TF_VAR_CF_EMAIL }}
   TF_VAR_cf_api_key: ${{ secrets.TF_VAR_CF_API_KEY }}
   TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
+  GITHUB_OWNER: iron-security
 
 jobs:
   deploy:
