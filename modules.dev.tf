@@ -21,11 +21,12 @@ provider "helm" {
 #
 
 module "kubernetes" {
-  depends_on = [module.google]
+  depends_on = [
+    module.google,
+    module.google.dev_cluster_endpoint
+  ]
 
   source = "./kubernetes"
-
-  //count = var.skip_kubernetes_deploy == true ? 0 : 1
 
   providers = {
     kubernetes = kubernetes.dev
@@ -42,8 +43,6 @@ module "helm_dev" {
   ]
 
   source = "./helm/dev"
-
-  //count = var.skip_kubernetes_deploy == true ? 0 : 1
 
   providers = {
     kubernetes = kubernetes.dev
