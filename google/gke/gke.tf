@@ -122,6 +122,11 @@ resource "google_container_cluster" "gke_cluster" {
     }
   }
 
+  # enable a network policy to be set
+  network_policy {
+    enabled = true
+  }
+
   # allow API auth from anywhere
   master_authorized_networks_config {
     cidr_blocks {
