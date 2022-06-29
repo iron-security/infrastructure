@@ -5,7 +5,7 @@ module "repo_infrastructure" {
   description = "Terraform monorepo for our cloud infrastructure."
   team_ids    = [github_team.development.id]
   branches    = []
-  public      = false
+  public      = true
 }
 
 module "repo_website" {
