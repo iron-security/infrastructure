@@ -30,7 +30,7 @@ jobs:
       with:
         token_format: access_token
         access_token_lifetime: 900s
-        workload_identity_provider: https://iam.googleapis.com/projects/1049058775616/locations/global/workloadIdentityPools/main-pool/providers/github-sa-provider
+        workload_identity_provider: https://iam.googleapis.com/projects/1049058775616/locations/global/workloadIdentityPools/main-pool/providers/github
         service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
         create_credentials_file: true
     -
