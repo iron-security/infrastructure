@@ -36,7 +36,7 @@ jobs:
       uses: google-github-actions/auth@v0.8.0
       with:
         access_token_lifetime: 900s
-        workload_identity_provider: https://iam.googleapis.com/projects/projects/1049058775616/locations/global/workloadIdentityPools/main-pool/providers/github-sa-provider
+        workload_identity_provider: projects/1049058775616/locations/global/workloadIdentityPools/main-pool/providers/github-sa-provider
         service_account: terraform-ci-cd@ironsecurity.iam.gserviceaccount.com
         create_credentials_file: true
     -
