@@ -18,7 +18,7 @@ resource "github_repository" "repo" {
   is_template            = var.template
   name                   = var.name
   visibility             = var.public == true ? "public" : "private"
-  vulnerability_alerts   = "true"
+  #vulnerability_alerts   = "true"
   auto_init              = true
   topics                 = var.topics
   license_template       = var.license
