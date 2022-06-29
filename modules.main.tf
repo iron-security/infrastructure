@@ -1,7 +1,7 @@
 module "cloudflare" {
   source = "./cloudflare"
 
-  account_id = var.cf_account_id
+  account_id    = var.cf_account_id
   account_admin = var.cf_email
 }
 

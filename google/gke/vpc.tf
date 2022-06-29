@@ -47,16 +47,16 @@ resource "google_compute_route" "egress_internet" {
 }
 
 resource "google_compute_router" "gke_vpc_router" {
-  project = var.project_id
-  depends_on = [ google_compute_subnetwork.gke_cluster_subnet ]
-  name    = "gke-${var.cluster_name}-router"
-  region  = google_compute_subnetwork.gke_cluster_subnet.region
-  network = google_compute_network.gke_cluster_vpc.name
+  project    = var.project_id
+  depends_on = [google_compute_subnetwork.gke_cluster_subnet]
+  name       = "gke-${var.cluster_name}-router"
+  region     = google_compute_subnetwork.gke_cluster_subnet.region
+  network    = google_compute_network.gke_cluster_vpc.name
 }
 
 resource "google_compute_router_nat" "nat_router" {
-  project = var.project_id
-  depends_on = [ google_compute_router.gke_vpc_router ]
+  project    = var.project_id
+  depends_on = [google_compute_router.gke_vpc_router]
 
   name                   = "${google_compute_subnetwork.gke_cluster_subnet.name}-nat-router"
   router                 = google_compute_router.gke_vpc_router.name

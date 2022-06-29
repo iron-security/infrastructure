@@ -1,5 +1,10 @@
 name: test
-on: [pull_request]
+
+on:
+  pull_request:
+    paths-ignore:
+    - helm/
+    - kubernetes/
 
 env:
   TF_LOG: INFO
@@ -9,9 +14,9 @@ env:
 
 jobs:
 
-  test:
+  test-infra:
 
-    name: terraform
+    name: terraform infrastructure
     runs-on: ubuntu-latest
 
     permissions:
@@ -43,6 +48,8 @@ jobs:
     -
       name: Terraform Plan
       run: terraform plan -no-color -lock=false -input=false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     -
       name: Cleanup
       if: always()

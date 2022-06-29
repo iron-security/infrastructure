@@ -75,13 +75,24 @@ validate:
 	terraform -chdir=$(TERRAFORM_DIR) validate .
 
 plan:
+	echo "Planning infrastructure..."
 	@if [ -f dev.env ]; then source dev.env; fi; \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
 	terraform -chdir=$(TERRAFORM_DIR) plan \
 		-lock=false \
-		-input=false
-		
+		-input=false \
+		-target='module.cloudflare' -target='module.github' -target='module.google'
+	
+	echo "Planning kubernetes/helm..."
+	@if [ -f dev.env ]; then source dev.env; fi; \
+	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
+	terraform -chdir=$(TERRAFORM_DIR) plan \
+		-lock=false \
+		-input=false \
+		-target='module.kubernetes' -target='module.helm'
+
 apply:
+	echo "Applying infrastructure..."
 	@if [ -f dev.env ]; then source dev.env; fi; \
 	TF_LOG=DEBUG \
 	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
@@ -89,7 +100,19 @@ apply:
 		-auto-approve \
 		-lock=false \
 		-input=false \
-		-refresh=true -target=module.kubernetes
+		-refresh=true \
+		-target='module.cloudflare' -target='module.github' -target='module.google'
+	
+	echo "Applying kubernetes/helm..."
+	@if [ -f dev.env ]; then source dev.env; fi; \
+	TF_LOG=DEBUG \
+	GOOGLE_APPLICATION_CREDENTIALS=$(TERRAFORM_AUTH) \
+	terraform -chdir=$(TERRAFORM_DIR) apply \
+		-auto-approve \
+		-lock=false \
+		-input=false \
+		-refresh=true \
+		-target='module.kubernetes' -target='module.helm'
 
 TARGET="foo"
 destroy:

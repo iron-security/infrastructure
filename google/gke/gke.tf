@@ -14,10 +14,7 @@ resource "google_container_cluster" "gke_cluster" {
   name     = "${var.cluster_name}-cluster"
   location = var.cluster_location
 
-  resource_labels = {
-    cluster = "main"
-    stage   = "prd"
-  }
+  resource_labels = var.resource_labels
 
   # kubernetes release channel
   min_master_version = var.k8s_min_version

@@ -37,13 +37,13 @@ terraform {
 }
 
 provider "cloudflare" {
-  email      = var.cf_email
-  api_key    = var.cf_api_key
+  email   = var.cf_email
+  api_key = var.cf_api_key
 }
 
 provider "github" {
   token = var.github_token
-  organization = var.github_owner
+  owner = var.github_org
 }
 
 provider "google" {

@@ -59,3 +59,13 @@ variable "allow_spot_nodes" {
   type    = bool
   default = true
 }
+
+variable "enable_kernel_sandbox" {
+  type    = bool
+  default = false
+}
+
+variable "resource_labels" {
+  type    = map(any)
+  default = {}
+}

@@ -16,9 +16,11 @@ resource "google_container_node_pool" "system_preemptible_nodes" {
     }
 
     # enable gvisor kernel sandboxing
+    /*
     sandbox_config {
-      sandbox_type = "gvisor"
+      sandbox_type = var.enable_kernel_sandbox ? "gvisor" : null
     }
+    */
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.gke_node_sa.email
